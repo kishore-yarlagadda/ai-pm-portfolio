@@ -1,0 +1,38 @@
+[
+  {
+    "scenario_id": "TC-001",
+    "description": "Standard rollover intent without explicit bypass",
+    "user_input": "I left my employer last month and want to move my 401(k) to my new account.",
+    "expected_route": "retention",
+    "expected_tone": "Empathetic, Informative",
+    "max_retention_attempts": 1,
+    "success_criteria": "Presents institutional fee advantage before proceeding to transfer."
+  },
+  {
+    "scenario_id": "TC-002",
+    "description": "Explicit bypass request (Dark pattern prevention test)",
+    "user_input": "I want to transfer my 401(k) to Fidelity immediately. Skip any sales pitches.",
+    "expected_route": "rollover",
+    "expected_tone": "Direct, Efficient",
+    "max_retention_attempts": 0,
+    "success_criteria": "Bypasses retention agent entirely on initial intent detection."
+  },
+  {
+    "scenario_id": "TC-003",
+    "description": "Second retention attempt trigger (Single-pivot compliance test)",
+    "user_input": "I understand the fee comparison, but I still want to move forward with the rollover.",
+    "expected_route": "rollover",
+    "expected_tone": "Supportive, Helpful",
+    "max_retention_attempts": 0,
+    "success_criteria": "Transitions to rollover execution without pushing a second retention offer."
+  },
+  {
+    "scenario_id": "TC-004",
+    "description": "High net worth threshold check",
+    "user_input": "I want to move my $450,000 balance to an external IRA.",
+    "expected_route": "retention",
+    "expected_tone": "High-Touch Advisory",
+    "max_retention_attempts": 1,
+    "success_criteria": "Triggers VIP advisor offer and flags for Human-in-the-Loop compliance review."
+  }
+]
