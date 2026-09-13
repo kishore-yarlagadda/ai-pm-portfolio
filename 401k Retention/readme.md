@@ -42,3 +42,9 @@ Run the agent orchestration locally:
 
 ```bash
 python 01-401k-retention-agent/src/agent_system.py
+
+
+Run the interactive demo to simulate customer journeys as a reviewer:
+
+```bash
+python 01-401k-retention-agent/src/interactive_demo.py
