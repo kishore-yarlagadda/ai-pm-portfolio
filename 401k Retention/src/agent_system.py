@@ -1,90 +1,68 @@
 """
-401(k) Rollover & Retention Multi-Agent Orchestrator
-Demonstrates state-based routing with strict CX guardrails.
+Agent System Orchestrator
+Main state machine and supervisor logic for 401(k) retention and rollover requests.
 """
 
-from typing import TypedDict, Literal
+from typing import Dict, Any
+from connectors import EnterpriseDataConnectors
+from analysis_engine import WhatIfAnalysisEngine
 
-# 1. Define the system state across turns
-class AgentState(TypedDict):
-    user_id: str
-    user_query: str
-    retention_attempted: bool
-    retention_successful: bool
-    rollover_initiated: bool
+class RetentionAgentSystem:
+    def __init__(self, user_id: str):
+        self.user_id = user_id
+        self.crm_data = EnterpriseDataConnectors.get_crm_history(user_id)
+        self.portfolio_data = EnterpriseDataConnectors.get_portfolio_data(user_id)
+        self.competitor_benchmark = EnterpriseDataConnectors.get_competitor_benchmark("generic_ira")
 
-# 2. Value & Retention Specialist Node
-def retention_agent(state: AgentState) -> AgentState:
-    print("\n[Retention Agent Activated]")
-    print("-> Analyzing portfolio: Unvested match & fee comparison...")
-    print("-> Offer Presented: 'If you stay, you retain your 0.03% institutional fee rate and $1,200 unvested company match.'")
-    
-    # Mark that we have used our single retention attempt
-    state["retention_attempted"] = True
-    
-    # Simulate user response check (In a full app, this would process LLM response)
-    # For demo purposes, we assume user proceeds with rollover unless explicitly accepting
-    state["retention_successful"] = False
-    return state
-
-# 3. Rollover Execution Specialist Node
-def rollover_agent(state: AgentState) -> AgentState:
-    print("\n[Rollover Execution Agent Activated]")
-    print("-> Validating external IRA target institution details...")
-    print("-> Pre-filling Direct Rollover Transfer Form (Form 1099-R equivalent)...")
-    print("-> Human-in-the-Loop Check: Transfer flagged for final compliance signature.")
-    
-    state["rollover_initiated"] = True
-    return state
-
-# 4. Supervisor Router (Enforces Guardrails)
-def route_user_request(state: AgentState) -> str:
-    query = state["user_query"].lower()
-    
-    # Guardrail Rule 1: Direct bypass requested by customer
-    if "skip" in query or "immediately" in query or "don't pitch" in query:
-        print("\n[Supervisor Router]: Direct transfer requested. Bypassing retention.")
-        return "rollover"
-    
-    # Guardrail Rule 2: Single-pivot rule (If retention already attempted once, do not push again)
-    if state["retention_attempted"]:
-        print("\n[Supervisor Router]: Retention attempt already limit reached. Routing to execution.")
-        return "rollover"
-    
-    # Default: Attempt 1 personalized retention offer
-    print("\n[Supervisor Router]: Routing to Retention Agent for value offer.")
-    return "retention"
-
-# 5. Execution Pipeline Simulation
-def run_simulation(user_query: str):
-    print("=" * 60)
-    print(f"USER QUERY: '{user_query}'")
-    print("=" * 60)
-    
-    state: AgentState = {
-        "user_id": "usr_98765",
-        "user_query": user_query,
-        "retention_attempted": False,
-        "retention_successful": False,
-        "rollover_initiated": False
-    }
-    
-    # Initial Route Decision
-    next_step = route_user_request(state)
-    
-    if next_step == "retention":
-        state = retention_agent(state)
-        # Re-evaluate route after retention attempt
-        next_step = route_user_request(state)
+    def evaluate_request(self, user_message: str) -> Dict[str, Any]:
+        """Processes user input, enforces single-pivot guardrail, and routes to retention or execution."""
+        message_lower = user_message.lower()
         
-    if next_step == "rollover":
-        state = rollover_agent(state)
+        # Check for direct bypass commands
+        bypass_keywords = ["skip", "transfer immediately", "no pitch", "direct rollover", "bypass"]
+        explicit_bypass = any(keyword in message_lower for keyword in bypass_keywords)
         
-    print("\nFINAL SYSTEM STATE:", state)
+        # Check single-pivot guardrail count
+        retention_attempts = self.crm_data.get("retention_attempts_this_session", 0)
+        
+        # Guardrail logic: Route to rollover if explicit bypass or pivot limit reached
+        if explicit_bypass or retention_attempts >= 1:
+            return {
+                "action": "ROUTE_TO_ROLLOVER_EXECUTION",
+                "reason": "Explicit bypass requested" if explicit_bypass else "Maximum retention attempts (1) reached",
+                "message": "Understood. Bypassing retention overview and initializing direct 401(k) rollover transfer."
+            }
+        
+        # Execute What-If Analysis
+        analysis = WhatIfAnalysisEngine.calculate_fee_impact(
+            portfolio=self.portfolio_data,
+            benchmark=self.competitor_benchmark
+        )
+        
+        summary_pitch = WhatIfAnalysisEngine.generate_comparison_summary(
+            portfolio=self.portfolio_data,
+            benchmark=self.competitor_benchmark,
+            analysis=analysis
+        )
+        
+        # Increment retention attempt count
+        self.crm_data["retention_attempts_this_session"] += 1
+        
+        return {
+            "action": "PRESENT_RETENTION_ANALYSIS",
+            "reason": "First-time retention pivot allowed under CX policy",
+            "message": summary_pitch,
+            "analysis_data": analysis
+        }
 
 if __name__ == "__main__":
-    # Test Scenario 1: Standard request (Triggers single-pivot retention)
-    run_simulation("I want to roll over my 401(k) to my new employer's plan.")
+    # Test Run
+    agent = RetentionAgentSystem(user_id="usr_98765")
     
-    # Test Scenario 2: Explicit bypass request (Bypasses retention immediately)
-    run_simulation("I want to move my 401k to Vanguard immediately. Do not pitch me anything.")
+    print("--- Test Case 1: First-time request ---")
+    response1 = agent.evaluate_request("I want to roll over my 401k to another IRA.")
+    print(response1["message"])
+    
+    print("\n--- Test Case 2: Follow-up request (Guardrail Triggered) ---")
+    response2 = agent.evaluate_request("I still want to move my money.")
+    print(response2["message"])
