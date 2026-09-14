@@ -67,6 +67,5 @@ class AgenticSDlcOrchestrator:
         self.invoke_engineering_pipeline()
 
 if __name__ == "__main__":
-    default_feature = "Build an LLM evaluator module featuring automated adversarial prompt generation, runtime cost-vs-accuracy Pareto frontier tracking, and HITL review gates."
-    feature = input("Enter feature request [Press Enter for default]: ").strip() or default_feature
+    feature = input("Enter feature request [Press Enter for default]: ").strip()
     AgenticSDlcOrchestrator(feature_request=feature).execute_product_phase()
