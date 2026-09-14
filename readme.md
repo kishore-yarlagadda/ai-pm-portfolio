@@ -1,15 +1,3 @@
-Here is the comprehensive portfolio README that consolidates both your **AI Product Management Orchestrator**, the **LLM Evaluator Module**, and the **401(k) Retention Module**.
-
-### **Where to Save**
-
-Save this file as `README.md` at the root directory of your portfolio repository:
-`ai-pm-portfolio/README.md`
-
----
-
-### **README Content**
-
-```markdown
 # AI Product Management Portfolio: SDLC Orchestrator & Case Studies
 
 Welcome to my AI Product Management Portfolio repository. This workspace demonstrates an outcome-driven product management framework designed specifically for high-stakes AI systems, financial tech, and enterprise automation. It explicitly decouples value-focused product strategy artifacts from technical engineering code generation, ensuring rigorous alignment from initial product discovery to requirements engineering.
