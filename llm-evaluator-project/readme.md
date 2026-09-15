@@ -7,7 +7,7 @@ This workspace houses the generated product management artifacts, strategy speci
 ## **Workspace Directory Structure**
 
 ```text
-llm-evaluator/
+llm-evaluator-project/
 ├── documents/                  # High-level product artifacts & reports
 │   ├── discovery_report.md
 │   └── strategy_spec.md
