@@ -1,71 +1,97 @@
-import logging
-import os
-from typing import Dict, Any
+import subprocess
+import sys
+from pathlib import Path
+from pydantic import BaseModel, Field
 
-logging.basicConfig(level=logging.INFO, format="[%(asctime)s] [%(levelname)s] %(message)s")
+class SDLCState(BaseModel):
+    feature_name: str
+    current_phase: str = Field(default="SPEC_PENDING")
+    spec_approved: bool = Field(default=False)
+    tasks_approved: bool = Field(default=False)
+    test_coverage_met: bool = Field(default=False)
+    type_check_passed: bool = Field(default=False)
 
-class AgenticSDlcOrchestrator:
-    def __init__(self, feature_request: str):
-        self.feature_request = feature_request
-        self.state: Dict[str, Any] = {"feature_request": feature_request, "lifecycle_stage": "INITIALIZED"}
-        
-        folder_name = input("Enter output project folder name (e.g., llm-evaluator): ").strip()
-        if not folder_name:
-            folder_name = "llm-evaluator-project"
-            
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.dirname(current_dir)
-        workspace_root = os.path.dirname(project_root)
-        
-        self.output_dir = os.path.join(workspace_root, folder_name)
-        self.template_dir = os.path.join(current_dir, "templates")
-        
-        for sub in ["documents", "prds"]:
-            os.makedirs(os.path.join(self.output_dir, sub), exist_ok=True)
+class SDLCOrchestrator:
+    def __init__(self, feature_name: str, base_dir: str = "src", state_file: str = ".sdlc_state.json"):
+        self.state_path = Path(state_file)
+        self.base_dir = Path(base_dir)
+        self.state = self.load_state(feature_name)
 
-    def run_product_lifecycle_step(self, step_name: str, framework: str, filename: str, subfolder: str, template_filename: str):
-        """Loads a refined template, injects the feature request, and enforces a HITL review gate."""
-        logging.info(f"Executing Product Phase: {step_name} [Framework: {framework}]")
-        template_path = os.path.join(self.template_dir, template_filename)
-        
-        if not os.path.exists(template_path):
-            raise FileNotFoundError(f"Required template not found at: {template_path}")
-            
-        with open(template_path, "r") as f:
-            content = f.read().format(feature_request=self.feature_request)
-            
-        target_dir = os.path.join(self.output_dir, subfolder)
-        file_path = os.path.join(target_dir, filename)
-        
-        with open(file_path, "w") as f:
-            f.write(content)
-            
-        logging.info(f"Product artifact generated: {file_path}")
-        print(f"\n[PRODUCT HITL GATE] Stage: {step_name} | Framework: {framework}")
-        input(f"Review product document at {file_path}, then press Enter to approve...\n")
+    def load_state(self, feature_name: str) -> SDLCState:
+        """Loads state from JSON if it exists, otherwise initializes a new one."""
+        if self.state_path.exists():
+            try:
+                data = self.state_path.read_text(encoding="utf-8")
+                print(f"[SDLC] Resuming workflow from state file: {self.state_path.name}")
+                return SDLCState.model_validate_json(data)
+            except Exception as e:
+                print(f"[Warning] Failed to parse state file: {e}. Initializing fresh state.")
+        return SDLCState(feature_name=feature_name)
 
-    def invoke_engineering_pipeline(self):
-        """Stub for future code generation and technical architecture tools."""
-        logging.info("Engineering pipeline stub reached. Awaiting code generation agent tools.")
-        print("\n[ENG GATE] Product phase complete. Technical implementation and code generation are separated.")
+    def save_state(self):
+        """Persists the current SDLC state to a JSON file."""
+        self.state_path.write_text(self.state.model_dump_json(indent=2), encoding="utf-8")
 
-    def execute_product_phase(self):
-        # 1. Strategy & Planning
-        self.run_product_lifecycle_step(
-            "Strategy and Planning", "RISE", "strategy_spec.md", "documents", "strategy_template.md"
+    def trigger_hitl_gate(self, gate_name: str) -> bool:
+        """Enforces Human-in-the-Loop terminal confirmation before advancing."""
+        print(f"\n[HITL GATE REQUIREMENT] Review required for: {gate_name}")
+        response = input(f"Do you approve progression for '{self.state.feature_name}'? [y/N]: ").strip().lower()
+        return response == 'y'
+
+    def run_quality_gates(self) -> bool:
+        """Executes pytest coverage and mypy type checks programmatically."""
+        print("\nRunning Automated Quality & Test Gates...")
+        
+        # Run mypy type safety check
+        mypy_result = subprocess.run(["mypy", str(self.base_dir)], capture_output=True, text=True)
+        self.state.type_check_passed = (mypy_result.returncode == 0)
+        
+        # Run pytest with coverage threshold
+        pytest_result = subprocess.run(
+            ["pytest", "--cov=" + str(self.base_dir), "--cov-fail-under=85"], 
+            capture_output=True, 
+            text=True
         )
-        # 2. Product Discovery
-        self.run_product_lifecycle_step(
-            "Product Discovery", "PACT", "discovery_report.md", "documents", "discovery_template.md"
-        )
-        # 3. Product Requirements Document (PRD)
-        self.run_product_lifecycle_step(
-            "PRD and Artifacts", "RACE / Merged Spec", "product_requirement_doc.md", "prds", "prd_template.md"
-        )
+        self.state.test_coverage_met = (pytest_result.returncode == 0)
+
+        print(f"Mypy Type Check Passed: {self.state.type_check_passed}")
+        print(f"Pytest Coverage (>=85%) Passed: {self.state.test_coverage_met}")
         
-        logging.info("Product documentation lifecycle completed successfully.")
-        self.invoke_engineering_pipeline()
+        self.save_state()
+        return self.state.type_check_passed and self.state.test_coverage_met
+
+    def advance_workflow(self):
+        """Drives the state machine forward based on gate compliance and persists state."""
+        if not self.state.spec_approved:
+            if self.trigger_hitl_gate("Engineering Architecture Specification"):
+                self.state.spec_approved = True
+                self.state.current_phase = "TASK_PLANNING"
+                print("-> Phase Advanced: Spec Approved. Moving to Task Plan.")
+            else:
+                print("-> Halting: Architecture Spec rejected or pending review.")
+                self.save_state()
+                return
+
+        if self.state.spec_approved and not self.state.tasks_approved:
+            if self.trigger_hitl_gate("Implementation Task Plan"):
+                self.state.tasks_approved = True
+                self.state.current_phase = "IMPLEMENTATION_AND_TESTING"
+                print("-> Phase Advanced: Tasks Approved. Ready for Code Generation.")
+            else:
+                print("-> Halting: Task Plan pending human sign-off.")
+                self.save_state()
+                return
+
+        if self.state.tasks_approved:
+            if self.run_quality_gates():
+                self.state.current_phase = "COMPLETED_AND_VERIFIED"
+                print(f"-> SUCCESS: Feature '{self.state.feature_name}' successfully passed all SDLC gates!")
+            else:
+                self.state.current_phase = "INCIDENT_TRIAGE"
+                print(f"-> GATES FAILED: Instantiating Bug Report template for triage.")
+        
+        self.save_state()
 
 if __name__ == "__main__":
-    feature = input("Enter feature request [Press Enter for default]: ").strip()
-    AgenticSDlcOrchestrator(feature_request=feature).execute_product_phase()
+    orchestrator = SDLCOrchestrator(feature_name="Dynamic Payload Handler")
+    orchestrator.advance_workflow()

@@ -15,7 +15,44 @@ workflows/
     └── prd_template.md       # Merged PostHog/Atlassian PRD
 
 ```
+---
+## 📐 Architecture & Governance Framework
 
+The Agentic PM & SDLC Governance Framework enforces a strict "Product-First" contract model. It utilizes an orchestrator-driven state machine combined with mandatory Human-in-the-Loop (HITL) checkpoints and automated quality gates to ensure code generation meets strict quality ($\ge 85\%$ test coverage via `pytest-cov`) and type-safety (`mypy`) standards.
+
+```mermaid
+graph TD
+    User[Human-in-the-Loop / Developer] -->|Triggers / Approves| Orch[SDLCOrchestrator Engine]
+    
+    subgraph Governance & State Layer
+        Orch --> State[SDLCState Model<br/>Pydantic]
+        State -->|Saves / Loads| JSON[(.sdlc_state.json<br/>State Persistence)]
+    end
+
+    subgraph Template Layer
+        Orch --> Spec[Engineering Spec Template]
+        Orch --> Task[Task Plan Template]
+        Orch --> Bug[Bug Report Template]
+    end
+
+    subgraph Use Case 1: Feature Development Workflow
+        Spec -->|HITL Gate 1| Task
+        Task -->|HITL Gate 2| Code[Code Generation & TDD]
+        Code --> Quality[Automated Quality & Test Gates]
+    end
+
+    subgraph Use Case 2: Bug Incident Remediation
+        Quality -- Fail (<85% Coverage / Mypy Error) --> BugTriage[Bug Report Generation]
+        BugTriage --> Fix[Code Remediation & Patch]
+        Fix --> Quality
+    end
+
+    Quality -- Pass (>=85% Coverage) --> Success[Completed & Verified State]
+
+    style Orch fill:#f9f,stroke:#333,stroke-width:2px
+    style Quality fill:#bbf,stroke:#333,stroke-width:2px
+    style Success fill:#bfb,stroke:#333,stroke-width:2px
+```
 ---
 
 **Orchestrator Overview (`orchestrator.py`)**
@@ -62,4 +99,4 @@ python workflows/orchestrator.py
 
 
 3. Input the target feature request or accept the default prompt (e.g., the LLM Evaluator module).
-4. Review generated markdown files interactively at each **Product HITL Gate** before approving completion.
+4. Review generated markdown files interactively at each **Product HITL Gate** before approving completion.		
