@@ -7,12 +7,13 @@ This workspace houses the generated product management artifacts, strategy speci
 ## **Workspace Directory Structure**
 
 ```text
-llm-evaluator-project/
-├── documents/
-│   ├── strategy_spec.md      # RISE Framework Strategy & Planning Specification
-│   └── discovery_report.md   # PACT Framework Product Discovery Report
-└── prds/
-    └── product_requirement_doc.md  # Merged PostHog/Atlassian PRD & User Story Matrix
+llm-evaluator/
+├── documents/                  # High-level product artifacts & reports
+│   ├── discovery_report.md
+│   └── strategy_spec.md
+├── prds/                       # Product requirements documentation
+│   └── product_requirement_doc.md
+└── readme.md                   # Project documentation & overview
 
 ```
 

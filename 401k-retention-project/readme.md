@@ -29,7 +29,22 @@ The architecture uses a **Supervisor Agent** pattern with deterministic state lo
 
 ## Directory Navigation
 
-* [`docs/PRD.md`](./docs/PRD.md): Complete Product Requirements Document detailing business metrics, guardrails, and functional specs.
+401k-retention-project/
+├── docs/                       # Product requirements & documentation
+│   └── prd.md
+├── evals/                      # Evaluation datasets and testing harness
+│   ├── eval_cases.json
+│   └── eval_harness.py
+├── src/                        # Core source code and agent architecture
+│   ├── agent_system.py
+│   ├── analysis_engine.py
+│   ├── connectors.py
+│   ├── interactive_demo.py
+│   └── llm_client.py
+└── readme.md                   # Project documentation & overview
+
+
+* [`docs/prd.md`](./docs/prd.md): Complete Product Requirements Document detailing business metrics, guardrails, and functional specs.
 * [`src/agent_system.py`](./src/agent_system.py): Python orchestration logic defining state transitions and agent routing.
 * [`src/connectors.py`](./src/connectors.py): Mock connectors for portfolio holdings, CRM support history, and allocation diagnostics.
 * [`evals/eval_cases.json`](./evals/eval_cases.json): Synthetic test cases for evaluating routing accuracy and guardrail adherence.

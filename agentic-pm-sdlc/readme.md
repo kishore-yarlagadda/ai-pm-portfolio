@@ -7,12 +7,23 @@
 **Directory Structure**
 
 ```text
-workflows/
-├── orchestrator.py         # Automated pipeline controller & HITL gatekeeper
-└── templates/              # Standardized professional PM frameworks
-    ├── strategy_template.md  # RISE Framework Strategy Spec
-    ├── discovery_template.md # PACT Framework Discovery Report
-    └── prd_template.md       # Merged PostHog/Atlassian PRD
+agentic-pm-sdlc/
+├── workflows/                          # Core orchestration engine and governance templates
+│   ├── templates/                      # Source-of-truth governance contracts & templates
+│   │   ├── architecture.md
+│   │   ├── bug_report_template.md
+│   │   ├── code_template.py
+│   │   ├── discovery.md
+│   │   ├── discovery_template.md
+│   │   ├── engineering_spec_template.md
+│   │   ├── prd.md
+│   │   ├── prd_template.md
+│   │   ├── strategy.md
+│   │   ├── strategy_template.md
+│   │   ├── task_plan_template.md
+│   │   └── test_template.py
+│   └── orchestrator.py                 # Pydantic state-machine & workflow runner
+└── readme.md                           # Project documentation & architecture overview
 
 ```
 ---
