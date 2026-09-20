@@ -1,0 +1,9 @@
+# Python cache and compiled bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments & local state
+venv/
+.env
+.sdlc_state.json

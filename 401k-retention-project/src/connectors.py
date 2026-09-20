@@ -79,16 +79,20 @@ class EnterpriseDataConnectors:
     }
 
     @classmethod
+    def _get_persona(cls, user_id: str) -> Dict[str, Any]:
+        if user_id not in cls.PERSONA_DATABASE:
+            raise ValueError(f"Unknown user_id: {user_id}")
+        return cls.PERSONA_DATABASE[user_id]
+
+    @classmethod
     def get_crm_history(cls, user_id: str) -> Dict[str, Any]:
         """Fetches customer CRM profile by ID."""
-        persona = cls.PERSONA_DATABASE.get(user_id, cls.PERSONA_DATABASE["usr_marcus_optimizer"])
-        return persona["crm"]
+        return cls._get_persona(user_id)["crm"]
 
     @classmethod
     def get_portfolio_data(cls, user_id: str) -> Dict[str, Any]:
         """Fetches customer portfolio data by ID."""
-        persona = cls.PERSONA_DATABASE.get(user_id, cls.PERSONA_DATABASE["usr_marcus_optimizer"])
-        return persona["portfolio"]
+        return cls._get_persona(user_id)["portfolio"]
 
     @staticmethod
     def get_competitor_benchmark(competitor_name: str = "generic_ira") -> Dict[str, Any]:

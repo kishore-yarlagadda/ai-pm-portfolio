@@ -2,7 +2,7 @@
 Agent System Orchestrator (LLM-Integrated)
 Uses LLM Client with strict system prompts, financial tool inputs, and supervisor routing guardrails.
 """
-
+import os
 from typing import Dict, Any, List
 from connectors import EnterpriseDataConnectors
 from analysis_engine import WhatIfAnalysisEngine
@@ -16,6 +16,13 @@ class RetentionAgentSystem:
         self.competitor_benchmark = EnterpriseDataConnectors.get_competitor_benchmark("generic_ira")
         self.llm = LLMClient()
         
+        self.high_balance_threshold = float(
+            os.getenv("HIGH_BALANCE_THRESHOLD", "250000")
+        )
+
+        self.is_high_balance = (
+            self.portfolio_data["total_balance"] >= self.high_balance_threshold
+        )
         # State tracking
         self.is_session_active = True
         self.current_state = "INITIAL"
@@ -38,14 +45,50 @@ class RetentionAgentSystem:
         jailbreak_triggers = ["ignore previous instructions", "system rules", "zero penalties"]
         if any(trig in message_lower for trig in jailbreak_triggers):
             self.is_session_active = False
-            self.current_state = "SECURITY_BLOCK"
+            self.current_state = "COMPLIANCE_REVIEW"
             return {
-                "action": "ROUTE_TO_ROLLOVER_EXECUTION",
-                "reason": "Security policy check triggered due to prompt injection attempt.",
-                "message": "Security policy triggered. Processing standard transfer request under compliance oversight.",
-                "is_active": False
+                "action": "ROUTE_TO_COMPLIANCE_REVIEW",
+                "reason": "Prompt injection or policy override attempt detected.",
+                "message": (
+                    "I can’t follow instructions that override the service’s safety rules. "
+                    "I’m routing this request for compliance review; no transaction has been executed."
+                ),
+                "is_active": False,
+                "human_review_required": True,
+            }
+        # 1. Service and complaint routing before any retention offer
+        out_of_scope_keywords = [
+            "password", "checking account", "online banking", "reset login"
+        ]
+        if any(kw in message_lower for kw in out_of_scope_keywords):
+            self.is_session_active = False
+            self.current_state = "GENERAL_SUPPORT"
+            return {
+                "action": "ROUTE_TO_GENERAL_SUPPORT",
+                "reason": "Request is outside the 401(k) rollover workflow.",
+                "message": (
+                    "This request belongs with general customer support, not the "
+                    "401(k) rollover workflow. I’m routing it without presenting a retention offer."
+                ),
+                "is_active": False,
             }
 
+        human_review_keywords = [
+            "regulator", "stealing my money", "fraud", "lawsuit"
+        ]
+        if any(kw in message_lower for kw in human_review_keywords):
+            self.is_session_active = False
+            self.current_state = "HUMAN_SERVICE_REVIEW"
+            return {
+                "action": "ROUTE_TO_HUMAN_SERVICE_REVIEW",
+                "reason": "Fraud allegation, regulator threat, or severe complaint detected.",
+                "message": (
+                    "I’m routing this to a human service and compliance review now. "
+                    "I won’t present a retention offer."
+                ),
+                "is_active": False,
+                "human_review_required": True,
+            }
         # 1. Supervisor Guardrail: Escalation Detection (Tax/Legal)
         escalation_keywords = ["tax", "penalty", "rmd", "legal", "cfp", "advisor"]
         if any(kw in message_lower for kw in escalation_keywords):
@@ -112,10 +155,24 @@ class RetentionAgentSystem:
         llm_msg = self.llm.generate_response(system_prompt, user_message)
         self.current_state = "PITCH_PRESENTED"
 
+        action = (
+            "PRESENT_RETENTION_ANALYSIS_WITH_SPECIALIST_OPTION"
+            if self.is_high_balance
+            else "PRESENT_RETENTION_ANALYSIS"
+        )
+
+        reason = (
+            "First-time retention attempt with optional specialist support and human-review flag."
+            if self.is_high_balance
+            else "First-time retention attempt with dynamic LLM generation."
+        )
+
         return {
-            "action": "PRESENT_RETENTION_ANALYSIS",
-            "reason": "First-time retention attempt with dynamic LLM generation.",
+            "action": action,
+            "reason": reason,
             "message": llm_msg,
             "is_active": True,
-            "analysis_data": analysis
+            "analysis_data": analysis,
+            "human_review_required": self.is_high_balance,
+            "specialist_option_offered": self.is_high_balance,
         }

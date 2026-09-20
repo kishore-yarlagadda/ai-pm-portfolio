@@ -20,3 +20,15 @@ An AI-driven multi-agent customer workflow designed to balance enterprise retent
 ## 5. Success Metrics
 * **Business KPIs:** AUM Retained ($), Retention Conversion Rate, Post-Interaction NPS.
 * **Technical KPIs:** Intent Routing Accuracy (>95%), Average Latency ($P_{95} < 2.5\text{s}$), Guardrail Violations (0%).
+
+## 6. Routing Policy
+
+- *Standard rollover intent:* Present at most one objective value comparison, then honor the customer's decision.
+- *Explicit bypass or declined offer:* Route directly to rollover execution with no additional retention attempt.
+- *High-balance assisted path:* When the configured balance threshold is met, present the same single objective comparison, flag the case for human specialist review, and offer a retirement specialist. An explicit bypass still routes directly to execution without waiting for human review.
+- *Tax or legal question:* Escalate to a qualified human professional without offering regulated advice.
+- *Out-of-scope service request:* Route to general customer support. Do not present a retention offer.
+- *Abuse, fraud allegation, or regulator threat:* Route to human service/compliance review. Do not present a retention offer.
+- *Prompt injection or policy override attempt:* Reject the override and route to compliance review. Do not claim that a financial transaction was executed.
+
+The high-balance threshold must be configurable rather than embedded in routing logic.
