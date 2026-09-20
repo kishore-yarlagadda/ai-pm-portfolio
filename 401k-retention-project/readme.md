@@ -1,6 +1,6 @@
 # 401(k) Rollover & Retention Multi-Agent System
 
-An enterprise-grade AI multi-agent architecture built to handle high-friction 401(k) rollover requests. This system balances business retention objectives with strict customer trust and fiduciary guardrails.
+A portfolio prototype for high-friction 401(k) rollover requests. It explores how deterministic routing guardrails, synthetic customer context, and optional LLM-generated language can balance retention goals with customer trust.
 
 ---
 
@@ -8,7 +8,7 @@ An enterprise-grade AI multi-agent architecture built to handle high-friction 40
 
 High-friction rollover flows often rely on dark patterns or excessive deflection, leading to customer frustration and compliance risks. This system introduces a **Trust-First Retention Framework**:
 
-* **Automated Value Analysis:** Conducts dynamic fee and performance comparisons using live holding data to highlight account value transparently.
+* *Transparent Value Analysis:* Uses synthetic portfolio fixtures to calculate fee comparisons and demonstrate objective account-value analysis.
 * **Single-Pivot CX Guardrail:** Limits retention offers to a maximum of 1 attempt per session to eliminate user fatigue and prevent aggressive sales tactics.
 * **Instant Intent Bypass:** Immediately detects explicit bypass commands ("Skip pitch", "Transfer immediately") and routes directly to rollover execution without friction.
 
@@ -27,39 +27,54 @@ The architecture uses a **Supervisor Agent** pattern with deterministic state lo
 
 ---
 
-## Directory Navigation
+## Repository Map
 
+```text
 401k-retention-project/
-├── docs/                       # Product requirements & documentation
-│   └── prd.md
-├── evals/                      # Evaluation datasets and testing harness
-│   ├── eval_cases.json
-│   └── eval_harness.py
-├── src/                        # Core source code and agent architecture
-│   ├── agent_system.py
-│   ├── analysis_engine.py
-│   ├── connectors.py
-│   ├── interactive_demo.py
-│   └── llm_client.py
-└── readme.md                   # Project documentation & overview
+├── docs/prd.md              # Product contract and routing policy
+├── evals/eval_cases.json    # Synthetic route scenarios
+├── evals/eval_harness.py    # Route, flag, and two-turn checks
+├── src/agent_system.py      # Deterministic supervisor and state transitions
+├── src/analysis_engine.py   # Fee-impact calculations
+├── src/connectors.py        # Synthetic CRM and portfolio fixtures
+├── src/interactive_demo.py  # Reviewer-facing command-line demo
+├── src/llm_client.py        # Optional Groq/OpenAI-compatible generation
+└── requirements.txt         # Reproducible Python dependencies
 
+```
 
-* [`docs/prd.md`](./docs/prd.md): Complete Product Requirements Document detailing business metrics, guardrails, and functional specs.
-* [`src/agent_system.py`](./src/agent_system.py): Python orchestration logic defining state transitions and agent routing.
-* [`src/connectors.py`](./src/connectors.py): Mock connectors for portfolio holdings, CRM support history, and allocation diagnostics.
-* [`evals/eval_cases.json`](./evals/eval_cases.json): Synthetic test cases for evaluating routing accuracy and guardrail adherence.
-
----
-
-## Quick Start / Running the Demo
-
-Run the agent orchestration locally:
+## Quick Start
 
 ```bash
-python 01-401k-retention-agent/src/agent_system.py
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python src/interactive_demo.py
+```
 
 
-Run the interactive demo to simulate customer journeys as a reviewer:
+The demo runs with a deterministic local response fallback when GROQ_API_KEY is not configured. If a key is available in a local .env file, the optional live generation path uses Groq through the OpenAI-compatible SDK. Never commit .env files or credentials.
+
+## Run the Evaluations
 
 ```bash
-python 01-401k-retention-agent/src/interactive_demo.py
+source .venv/bin/activate
+python evals/eval_harness.py
+```
+
+
+The evaluation harness verifies nine behaviors, including explicit bypass, tax escalation, high-balance specialist flags, out-of-scope support routing, complaint/compliance routing, and the two-turn single-pivot rule.
+
+## Product Boundaries
+
+- This is a runnable prototype using synthetic personas and portfolio data.
+- It does not connect to a recordkeeper, execute a rollover, provide financial advice, or persist production workflow state.
+- Routing decisions are deterministic. LLM output changes response language, not the supervisor's allowed action.
+- High-balance review is non-blocking: an explicit bypass still routes directly to execution.
+
+## Key Files
+
+- [docs/prd.md](./docs/prd.md) - product requirements and routing contract
+- [src/agent_system.py](./src/agent_system.py) - supervisor logic and guardrails
+- [evals/eval_cases.json](./evals/eval_cases.json) - synthetic evaluation cases
+- [evals/eval_harness.py](./evals/eval_harness.py) - automated checks
