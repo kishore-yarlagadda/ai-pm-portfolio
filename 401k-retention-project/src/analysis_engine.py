@@ -43,13 +43,27 @@ class WhatIfAnalysisEngine:
         }
 
     @staticmethod
-    def generate_comparison_summary(portfolio: Dict[str, Any], benchmark: Dict[str, Any], analysis: Dict[str, Any]) -> str:
-        """Generates a clear, fiduciary-compliant comparison pitch for retention."""
+    def generate_comparison_summary(
+        portfolio: Dict[str, Any],
+        benchmark: Dict[str, Any],
+        analysis: Dict[str, Any],
+        annual_return_rate: float = 0.07,
+    ) -> str:
+        """Builds a deterministic comparison from synthetic fixture data."""
         return (
-            f"Based on your current balance of ${portfolio['total_balance']:,.2f}:\n"
-            f"- Current 401(k) Avg Fee: {portfolio['expense_ratio_avg']*100:.2f}%\n"
-            f"- External IRA Avg Fee: {benchmark['avg_expense_ratio']*100:.2f}%\n"
-            f"- Projected 1-Year Fee Savings by staying: ${analysis['year_one_fee_savings']:,.2f}\n"
-            f"- Projected {analysis['projection_years']}-Year Savings (including compounding): ${analysis['total_estimated_fee_drag_savings']:,.2f}\n\n"
-            f"Staying in the plan keeps your access to institutional index fund rates and zero administrative account fees."
+            f"Using the synthetic account data in this demo, the current plan "
+            f"has an average expense ratio of "
+            f"{portfolio['expense_ratio_avg'] * 100:.2f}% and an annual "
+            f"administrative fee of ${portfolio['annual_admin_fee']:,.2f}. "
+            f"The comparison IRA fixture uses "
+            f"{benchmark['avg_expense_ratio'] * 100:.2f}% and an annual "
+            f"account fee of ${benchmark['annual_account_fee']:,.2f}.\n\n"
+            f"Assuming the same starting balance, no contributions or withdrawals, "
+            f"and a {annual_return_rate * 100:.1f}% annual return before fees, "
+            f"the projected balance difference after "
+            f"{analysis['projection_years']} years is "
+            f"${analysis['total_estimated_fee_drag_savings']:,.2f} in favor of "
+            f"the lower-cost fixture. This is an illustration based on synthetic "
+            f"inputs, not a forecast or financial advice.\n\n"
+            f"You may proceed with the rollover now, or review this comparison first."
         )

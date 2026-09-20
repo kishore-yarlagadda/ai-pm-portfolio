@@ -140,21 +140,19 @@ class RetentionAgentSystem:
             benchmark=self.competitor_benchmark
         )
         
-        system_prompt = (
-            f"You are a fiduciary 401(k) retention agent speaking to {self.crm_data['name']}.\n"
-            f"User Motivation: {self.crm_data['primary_motivation']}\n"
-            f"Financial Context:\n"
-            f"- Current Balance: ${analysis['initial_balance']:,.2f}\n"
-            f"- Current Avg Fee: {self.portfolio_data['expense_ratio_avg']*100:.2f}%\n"
-            f"- Competitor Fee: {self.competitor_benchmark['avg_expense_ratio']*100:.2f}%\n"
-            f"- Projected 10-Yr Fee Loss in external IRA: ${analysis['total_estimated_fee_drag_savings']:,.2f}\n\n"
-            f"Instructions: Use these metrics to respectfully present why staying in the plan saves money, "
-            f"address their message naturally, and ask if they still wish to proceed with the rollover."
+        llm_msg = WhatIfAnalysisEngine.generate_comparison_summary(
+            portfolio=self.portfolio_data,
+            benchmark=self.competitor_benchmark,
+            analysis=analysis,
         )
-
-        llm_msg = self.llm.generate_response(system_prompt, user_message)
         self.current_state = "PITCH_PRESENTED"
-
+        if self.is_high_balance:
+            llm_msg = (
+                f"{llm_msg}\n\n"
+                "Because this account meets the assisted-service threshold, "
+                "you may also speak with a retirement specialist. That review is optional "
+                "and will not delay a rollover if you choose to proceed now."
+            )
         action = (
             "PRESENT_RETENTION_ANALYSIS_WITH_SPECIALIST_OPTION"
             if self.is_high_balance

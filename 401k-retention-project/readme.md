@@ -27,6 +27,27 @@ The architecture uses a **Supervisor Agent** pattern with deterministic state lo
 
 ---
 
+## Architecture at a Glance
+
+```mermaid
+flowchart TD
+    U[Customer request] --> S[Deterministic supervisor]
+    S -->|Explicit bypass or declined offer| R[Rollover execution]
+    S -->|Tax or legal question| C[Qualified human professional]
+    S -->|Support request| G[General customer support]
+    S -->|Severe complaint or policy override| H[Human service / compliance review]
+    S -->|Eligible first request| A[Objective value analysis]
+    A --> L[Optional LLM response language]
+    A -->|Standard balance| O[One retention offer]
+    A -->|High balance| P[One offer + specialist option + review flag]
+    O -->|Customer proceeds| R
+    P -->|Customer proceeds| R
+    D[Synthetic CRM and portfolio fixtures] --> S
+    E[Evaluation harness] -. verifies routes, flags, and state .-> S
+```
+
+The supervisor owns every allowed action and state transition. The LLM can shape response language, but it cannot choose a route, bypass a guardrail, or execute a financial transaction.
+
 ## Repository Map
 
 ```text
@@ -78,3 +99,4 @@ The evaluation harness verifies nine behaviors, including explicit bypass, tax e
 - [src/agent_system.py](./src/agent_system.py) - supervisor logic and guardrails
 - [evals/eval_cases.json](./evals/eval_cases.json) - synthetic evaluation cases
 - [evals/eval_harness.py](./evals/eval_harness.py) - automated checks
+- [docs/demo-walkthrough.md](./docs/demo-walkthrough.md) - two-minute demo walkthrough
