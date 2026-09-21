@@ -1,6 +1,6 @@
 # 401(k) Rollover & Retention Multi-Agent System
 
-A portfolio prototype for high-friction 401(k) rollover requests. A deterministic supervisor coordinates three focused agents - context, analysis, and compliance critique - over synthetic customer data, with optional LLM-generated language kept away from every routing decision.
+A portfolio prototype for high-friction 401(k) rollover requests. A deterministic supervisor coordinates three focused agents - context, analysis, and compliance critique - over synthetic customer data, with optional LLM output restricted by an exact allowlist to one fact-free acknowledgment and kept away from every routing decision.
 
 ---
 
@@ -60,11 +60,11 @@ flowchart TD
     CC -->|Rejected draft repaired with verified text, flagged for human review| OUT
     D[Synthetic CRM and portfolio fixtures] --> CX
     FE[Fee-impact engine] --> AN
-    LLM[Optional LLM response language] -. cannot choose routes, bypass guardrails, or claim transactions .-> S
+    LLM[Optional allowlisted acknowledgment] -. exact match or deterministic fallback .-> S
     EV[eval_harness.py + agent_contracts.py] -. verify routes, flags, state, and agent contracts .-> S
 ```
 
-The supervisor owns every allowed action and state transition. The agents supply validated context, verified analysis, and reviewed wording: every customer-facing response, on every route, passes through the ComplianceCritic before it is returned. On an eligible retention-analysis route only, a configured LLM may add one brief empathetic opening before the complete deterministic comparison. It cannot change the verified comparison, choose a route, bypass a guardrail, or execute a financial transaction. The combined draft still passes through the ComplianceCritic.
+The supervisor owns every allowed action and state transition. The agents supply validated context, verified analysis, and reviewed wording: every customer-facing response, on every route, passes through the ComplianceCritic before it is returned. On an eligible retention-analysis route only, a configured LLM may select one fact-free acknowledgment from an exact code allowlist before the complete deterministic comparison. Any other output falls back to the unchanged deterministic draft. The combined response still passes through the ComplianceCritic.
 
 **A note on naming:** customer-facing text and this documentation say "rollover handoff" because no transaction executes in this prototype. The internal action constant `ROUTE_TO_ROLLOVER_EXECUTION` is intentionally unchanged so the published evaluation contract keeps running; it names a routing decision, not a completed transaction.
 
@@ -99,7 +99,7 @@ python src/interactive_demo.py
 ```
 
 
-The demo runs deterministically when `GROQ_API_KEY` is not configured. If a key is available in a local `.env` file, the optional Groq/OpenAI-compatible path adds one brief empathetic opening on an eligible retention-analysis response. Verified figures, assumptions, options, disclosures, routing, and state stay deterministic, and the full draft still passes through the ComplianceCritic. If the live call fails or returns no text, the supervisor uses the deterministic draft. Never commit `.env` files or credentials.
+The demo runs deterministically when `GROQ_API_KEY` is not configured. If a key is available in a local `.env` file, the optional Groq/OpenAI-compatible path may add one exact, allowlisted acknowledgment on an eligible retention-analysis response. Any altered or extra content - including numbers, claims, recommendations, options, action assertions, advice, or multiple sentences - is rejected in code and falls back to the unchanged deterministic draft. Verified figures, assumptions, options, disclosures, routing, and state stay deterministic, and the full response still passes through the ComplianceCritic. A failed or empty live call also uses the deterministic draft. Never commit `.env` files or credentials.
 
 ## Run the Evaluations
 
@@ -112,13 +112,13 @@ python evals/agent_contracts.py
 
 `eval_harness.py` verifies nine end-to-end behaviors, including explicit bypass, tax escalation, high-balance specialist flags, out-of-scope support routing, complaint/compliance routing, and the two-turn single-pivot rule. Expected final line: `EVALUATION COMPLETE: Passed: 9 | Failed: 0`.
 
-`agent_contracts.py` verifies that each agent does distinct work: context failures route safely without a traceback, analysis figures match the fee engine exactly for every fixture, session signals are derived from the session's customer words and provably ignore fixture notes and persona labels, the critic rejects and repairs executed-transaction claims, tax advice, and missing disclosures, every supervisor route returns only critic-reviewed responses, and optional LLM drafting changes language only while unsafe output is repaired and routing stays unchanged. Expected final line: `AGENT CONTRACTS COMPLETE: Passed: 7 | Failed: 0`.
+`agent_contracts.py` verifies that each agent does distinct work: context failures route safely without a traceback, analysis figures match the fee engine exactly for every fixture, session signals are derived from the session's customer words and provably ignore fixture notes and persona labels, the critic rejects and repairs executed-transaction claims, tax advice, and missing disclosures, every supervisor route returns only critic-reviewed responses, and optional LLM drafting can add only an exact allowlisted acknowledgment while adversarial outputs fall back to unchanged deterministic content and routing. Expected final line: `AGENT CONTRACTS COMPLETE: Passed: 7 | Failed: 0`.
 
 ## Product Boundaries
 
 - This is a runnable prototype using synthetic personas and portfolio data.
 - It does not connect to a recordkeeper, execute a rollover, provide financial advice, or persist production workflow state. "Rollover handoff" is a routing outcome, and the retained internal constant `ROUTE_TO_ROLLOVER_EXECUTION` does not mean a transaction executed.
-- Routing decisions are deterministic. LLM output changes response language, not the supervisor's allowed action.
+- Routing decisions are deterministic. LLM output can only add an exact allowlisted acknowledgment; it cannot alter the deterministic analysis or the supervisor's allowed action.
 - Unknown or unverifiable customer context routes to general support instead of producing a fabricated analysis.
 - High-balance review is non-blocking: an explicit bypass still routes directly to the handoff.
 

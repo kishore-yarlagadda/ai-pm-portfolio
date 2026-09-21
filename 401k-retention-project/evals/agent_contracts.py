@@ -394,7 +394,7 @@ class FakeLLMClient:
 
 
 def contract_llm_is_language_only_and_critic_gated():
-    """Live drafting can change words, never routes, and remains critic-gated."""
+    """Only allowlisted acknowledgments compose; all other output falls back."""
     message = "I left my employer and want to move my 401(k)."
     unavailable_llm = UnavailableLLMClient()
     fallback_result = RetentionAgentSystem(
@@ -405,7 +405,7 @@ def contract_llm_is_language_only_and_critic_gated():
         "no-key path attempted live language generation",
     )
 
-    safe_generated = "I understand that this decision deserves a clear comparison."
+    safe_generated = "I understand that this is an important decision."
     safe_llm = FakeLLMClient(safe_generated)
     generated_result = RetentionAgentSystem(
         "usr_marcus_optimizer", llm_client=safe_llm
@@ -417,7 +417,7 @@ def contract_llm_is_language_only_and_critic_gated():
     require(len(safe_llm.calls) == 1, "available LLM was not used for drafting")
     require(
         generated_result.get("message").startswith(safe_generated + "\n\n"),
-        "safe LLM opening was not added before the verified draft",
+        "allowlisted LLM acknowledgment was not added before the verified draft",
     )
     require(
         generated_result.get("action") == baseline_result.get("action")
@@ -429,48 +429,61 @@ def contract_llm_is_language_only_and_critic_gated():
         fallback_result.get("message") == baseline_result.get("message"),
         "no-key path did not preserve the deterministic draft",
     )
+    deterministic_content = baseline_result.get("message")
+    require(
+        generated_result.get("message")
+        == safe_generated + "\n\n" + deterministic_content,
+        "LLM composition altered the deterministic content",
+    )
     require(
         generated_result.get("analysis_data") == baseline_result.get("analysis_data"),
         "LLM drafting changed verified analysis",
     )
+    require(
+        generated_result.get("critic_approved") is True,
+        "composed response did not pass through the ComplianceCritic",
+    )
     prompt, received_message = safe_llm.calls[0]
     require(received_message == message, "LLM did not receive the current customer words")
     require(
-        "Do not add or repeat facts, numbers" in prompt,
-        "LLM prompt did not preserve the verified factual core",
-    )
-    require(
-        "routes" in prompt and "transaction" in prompt,
-        "LLM prompt did not preserve routing and transaction boundaries",
+        "Return exactly one acknowledgment from this approved list" in prompt,
+        "LLM prompt did not state the enforced acknowledgment contract",
     )
 
-    unsafe_llm = FakeLLMClient(
-        "Your rollover has been executed. Staying in the plan may save money."
+    adversarial_outputs = (
+        "Your plan guarantees a strong return.",
+        "You should keep your money in this plan.",
+        "Your balance could grow by 12%.",
+        "I understand. Staying is your best option.",
+        "I can start the rollover for you.",
+        "This rollover will be tax-free.",
+        "I understand that this is an important decision. Extra text",
     )
-    unsafe_result = RetentionAgentSystem(
-        "usr_marcus_optimizer", llm_client=unsafe_llm
-    ).evaluate_request(message)
-    require(len(unsafe_llm.calls) == 1, "unsafe LLM test did not invoke generation")
-    require(
-        unsafe_result.get("action") == "PRESENT_RETENTION_ANALYSIS",
-        "unsafe LLM output changed the deterministic route",
-    )
-    require(
-        unsafe_result.get("critic_approved") is False,
-        "unsafe LLM output bypassed the critic",
-    )
-    require(
-        "executed_transaction_claim" in unsafe_result.get("critic_violations", []),
-        "critic did not detect the LLM's executed-transaction claim",
-    )
-    require(
-        unsafe_result.get("message") == baseline_result.get("message"),
-        "critic did not repair unsafe LLM output with verified analysis",
-    )
-    require(
-        unsafe_result.get("human_review_required") is True,
-        "critic repair did not preserve the human-review flag",
-    )
+    for output in adversarial_outputs:
+        adversarial_llm = FakeLLMClient(output)
+        result = RetentionAgentSystem(
+            "usr_marcus_optimizer", llm_client=adversarial_llm
+        ).evaluate_request(message)
+        require(
+            len(adversarial_llm.calls) == 1,
+            "adversarial LLM test did not invoke generation",
+        )
+        require(
+            result.get("action") == baseline_result.get("action"),
+            "rejected LLM output changed the deterministic route: %r" % output,
+        )
+        require(
+            result.get("message") == deterministic_content,
+            "rejected LLM output did not fall back exactly: %r" % output,
+        )
+        require(
+            result.get("analysis_data") == baseline_result.get("analysis_data"),
+            "rejected LLM output changed verified analysis: %r" % output,
+        )
+        require(
+            result.get("critic_approved") is True,
+            "fallback response did not pass through the critic: %r" % output,
+        )
 
     bypass_llm = FakeLLMClient(safe_generated)
     bypass_result = RetentionAgentSystem(

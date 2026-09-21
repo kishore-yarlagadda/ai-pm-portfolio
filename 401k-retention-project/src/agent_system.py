@@ -12,6 +12,16 @@ from llm_client import LLMClient
 class RetentionAgentSystem:
     """Routes requests and coordinates context, analysis, and compliance agents."""
 
+    # Live generation may select one acknowledgment, but cannot introduce new
+    # customer-facing content. Exact-match validation makes the boundary
+    # enforceable rather than depending on the model to follow a prompt.
+    ALLOWED_LLM_ACKNOWLEDGMENTS = frozenset({
+        "I understand that this is an important decision.",
+        "I understand that you want a clear comparison.",
+        "Thank you for explaining what you need.",
+        "I hear that you want clarity before deciding.",
+    })
+
     def __init__(self, user_id: str, llm_client: Optional[LLMClient] = None):
         self.user_id = user_id
         self.high_balance_threshold = float(
@@ -90,12 +100,10 @@ class RetentionAgentSystem:
         if not self.llm_client.is_live_available:
             return deterministic_draft
 
+        allowed_openings = sorted(self.ALLOWED_LLM_ACKNOWLEDGMENTS)
         system_prompt = (
-            "Write one brief empathetic opening sentence for the verified "
-            "comparison that will follow. Do not add or repeat facts, numbers, "
-            "assumptions, options, routes, tax or legal guidance, or transaction "
-            "status. Do not say or imply that a transfer, rollover, or transaction "
-            "has executed. Return only that opening sentence."
+            "Return exactly one acknowledgment from this approved list, with no "
+            "other text: " + " | ".join(allowed_openings)
         )
         try:
             generated = self.llm_client.generate_response(
@@ -105,9 +113,18 @@ class RetentionAgentSystem:
         except Exception:
             return deterministic_draft
 
-        if not isinstance(generated, str) or not generated.strip():
+        if not isinstance(generated, str):
             return deterministic_draft
-        return generated.strip() + "\n\n" + deterministic_draft
+
+        # This exact allowlist is the language-only security boundary. It rejects
+        # multiple sentences and any generated number, performance claim, fact,
+        # recommendation, option, transaction/action assertion, tax/legal claim,
+        # or other content outside a fact-free acknowledgment. Normalizing only
+        # surrounding whitespace avoids accepting an altered sentence.
+        acknowledgment = generated.strip()
+        if acknowledgment not in self.ALLOWED_LLM_ACKNOWLEDGMENTS:
+            return deterministic_draft
+        return acknowledgment + "\n\n" + deterministic_draft
 
     def evaluate_request(self, user_message: str) -> Dict[str, Any]:
         """Evaluate intent and enforce supervisor routing guardrails."""

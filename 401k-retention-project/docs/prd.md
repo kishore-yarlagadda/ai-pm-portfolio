@@ -22,7 +22,7 @@ There is deliberately no execution agent: the bypass outcome is a rollover hando
 ## 5. Key Guardrails & Principles
 * **Single-Pivot Rule:** Maximum of 1 retention attempt per session. If the user insists on leaving or declines the offer, instantly transition to the rollover handoff.
 * **No Dark Patterns:** Clear, direct options to proceed with the rollover at all times.
-* **Deterministic Authority:** Routing, state, calculations, and guardrails are deterministic and testable. On an eligible retention route only, optional live LLM generation may add one brief empathetic opening before the complete verified comparison. It cannot select a route, alter analysis, bypass a guardrail, or claim a transaction, and the combined draft must pass through the ComplianceCritic.
+* **Deterministic Authority:** Routing, state, calculations, and guardrails are deterministic and testable. On an eligible retention route only, optional live LLM generation may return one fact-free acknowledgment from an exact code allowlist before the complete verified comparison. Any other output is rejected and falls back to the unchanged deterministic draft. The composed response must still pass through the ComplianceCritic.
 * **Advice Boundary:** Strict separation between objective fee/value comparisons on synthetic data and regulated financial advice. Tax or legal questions escalate to a qualified human professional.
 * **Safe Failure:** When verified customer context or analysis cannot be produced, the system routes to general support rather than fabricating an answer.
 
@@ -44,4 +44,4 @@ There is deliberately no execution agent: the bypass outcome is a rollover hando
 The high-balance threshold must be configurable rather than embedded in routing logic.
 
 ## 8. Future Work (not in this prototype)
-Further agent decomposition is future work, not current capability: a real handoff integration with a recordkeeper, retrieval over versioned plan documents, per-signal confidence scoring, and a richer compliance critic. The current critic is deliberately rule-based and testable; anything beyond deterministic checks is out of scope for this branch.
+Further agent decomposition is future work, not current capability: a real handoff integration with a recordkeeper, retrieval over versioned plan documents, per-signal confidence scoring, and a richer compliance critic. The current critic and LLM acknowledgment boundary are deliberately rule-based and testable; anything beyond these deterministic checks is out of scope for this branch.
