@@ -64,7 +64,7 @@ flowchart TD
     EV[eval_harness.py + agent_contracts.py] -. verify routes, flags, state, and agent contracts .-> S
 ```
 
-The supervisor owns every allowed action and state transition. The agents supply validated context, verified analysis, and reviewed wording: every customer-facing response, on every route, passes through the ComplianceCritic before it is returned. The LLM can shape response language, but it cannot choose a route, bypass a guardrail, or execute a financial transaction.
+The supervisor owns every allowed action and state transition. The agents supply validated context, verified analysis, and reviewed wording: every customer-facing response, on every route, passes through the ComplianceCritic before it is returned. On an eligible retention-analysis route only, a configured LLM may add one brief empathetic opening before the complete deterministic comparison. It cannot change the verified comparison, choose a route, bypass a guardrail, or execute a financial transaction. The combined draft still passes through the ComplianceCritic.
 
 **A note on naming:** customer-facing text and this documentation say "rollover handoff" because no transaction executes in this prototype. The internal action constant `ROUTE_TO_ROLLOVER_EXECUTION` is intentionally unchanged so the published evaluation contract keeps running; it names a routing decision, not a completed transaction.
 
@@ -76,7 +76,7 @@ The supervisor owns every allowed action and state transition. The agents supply
 ├── docs/demo-walkthrough.md         # Two-minute reviewer walkthrough
 ├── evals/eval_cases.json            # Synthetic route scenarios
 ├── evals/eval_harness.py            # Route, flag, and two-turn checks (9 checks)
-├── evals/agent_contracts.py         # Per-agent contract checks (6 checks)
+├── evals/agent_contracts.py         # Per-agent contract checks (7 checks)
 ├── src/agent_system.py              # Deterministic supervisor and state transitions
 ├── src/agents/context_agent.py      # Context validation and session-signal derivation
 ├── src/agents/analysis_agent.py     # Fee-engine orchestration, assumptions, options
@@ -99,7 +99,7 @@ python src/interactive_demo.py
 ```
 
 
-The demo runs with a deterministic local response fallback when GROQ_API_KEY is not configured. If a key is available in a local .env file, the optional live generation path uses Groq through the OpenAI-compatible SDK. Never commit .env files or credentials.
+The demo runs deterministically when `GROQ_API_KEY` is not configured. If a key is available in a local `.env` file, the optional Groq/OpenAI-compatible path adds one brief empathetic opening on an eligible retention-analysis response. Verified figures, assumptions, options, disclosures, routing, and state stay deterministic, and the full draft still passes through the ComplianceCritic. If the live call fails or returns no text, the supervisor uses the deterministic draft. Never commit `.env` files or credentials.
 
 ## Run the Evaluations
 
@@ -112,7 +112,7 @@ python evals/agent_contracts.py
 
 `eval_harness.py` verifies nine end-to-end behaviors, including explicit bypass, tax escalation, high-balance specialist flags, out-of-scope support routing, complaint/compliance routing, and the two-turn single-pivot rule. Expected final line: `EVALUATION COMPLETE: Passed: 9 | Failed: 0`.
 
-`agent_contracts.py` verifies that each agent does distinct work: context failures route safely without a traceback, analysis figures match the fee engine exactly for every fixture, session signals are derived from the session's customer words and provably ignore fixture notes and persona labels, the critic rejects and repairs executed-transaction claims, tax advice, and missing disclosures, and every supervisor route returns only critic-reviewed responses. Expected final line: `AGENT CONTRACTS COMPLETE: Passed: 6 | Failed: 0`.
+`agent_contracts.py` verifies that each agent does distinct work: context failures route safely without a traceback, analysis figures match the fee engine exactly for every fixture, session signals are derived from the session's customer words and provably ignore fixture notes and persona labels, the critic rejects and repairs executed-transaction claims, tax advice, and missing disclosures, every supervisor route returns only critic-reviewed responses, and optional LLM drafting changes language only while unsafe output is repaired and routing stays unchanged. Expected final line: `AGENT CONTRACTS COMPLETE: Passed: 7 | Failed: 0`.
 
 ## Product Boundaries
 

@@ -22,12 +22,12 @@ There is deliberately no execution agent: the bypass outcome is a rollover hando
 ## 5. Key Guardrails & Principles
 * **Single-Pivot Rule:** Maximum of 1 retention attempt per session. If the user insists on leaving or declines the offer, instantly transition to the rollover handoff.
 * **No Dark Patterns:** Clear, direct options to proceed with the rollover at all times.
-* **Deterministic Authority:** Routing, state, and guardrails are deterministic and testable. Optional LLM generation shapes language only and cannot select a route, bypass a guardrail, or claim a transaction.
+* **Deterministic Authority:** Routing, state, calculations, and guardrails are deterministic and testable. On an eligible retention route only, optional live LLM generation may add one brief empathetic opening before the complete verified comparison. It cannot select a route, alter analysis, bypass a guardrail, or claim a transaction, and the combined draft must pass through the ComplianceCritic.
 * **Advice Boundary:** Strict separation between objective fee/value comparisons on synthetic data and regulated financial advice. Tax or legal questions escalate to a qualified human professional.
 * **Safe Failure:** When verified customer context or analysis cannot be produced, the system routes to general support rather than fabricating an answer.
 
 ## 6. Success Metrics
-* **Prototype KPIs (measured):** Evaluation harness route/flag accuracy (currently 9/9 checks passing), per-agent contract checks (currently 6/6 passing), guardrail violations across the suite (0).
+* **Prototype KPIs (measured):** Evaluation harness route/flag accuracy (currently 9/9 checks passing), per-agent contract checks (currently 7/7 passing), guardrail violations across the suite (0).
 * **Business KPIs (future validation only):** AUM retained, retention conversion rate, post-interaction NPS. No business lift is claimed from this prototype.
 
 ## 7. Routing Policy

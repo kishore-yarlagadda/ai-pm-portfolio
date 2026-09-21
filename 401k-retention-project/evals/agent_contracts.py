@@ -13,6 +13,11 @@ SRC_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "src"))
 if SRC_DIR not in sys.path:
     sys.path.insert(0, SRC_DIR)
 
+# Contract checks must be deterministic even when the developer's shell or
+# local .env contains a live Groq key. Live-path behavior is covered below
+# through an injected FakeLLMClient, so no contract check needs the network.
+os.environ["GROQ_API_KEY"] = ""
+
 from agent_system import RetentionAgentSystem
 from agents.analysis_agent import AnalysisAgent
 from agents.compliance_critic import ComplianceCritic
@@ -361,6 +366,126 @@ def contract_supervisor_reviews_every_response():
     )
 
 
+class UnavailableLLMClient:
+    """Test double proving the no-key path never calls generation."""
+
+    is_live_available = False
+
+    def __init__(self):
+        self.calls = []
+
+    def generate_response(self, system_prompt, user_message):
+        self.calls.append((system_prompt, user_message))
+        raise AssertionError("unavailable LLM must not be called")
+
+
+class FakeLLMClient:
+    """Test double for the optional language-only generation boundary."""
+
+    is_live_available = True
+
+    def __init__(self, output):
+        self.output = output
+        self.calls = []
+
+    def generate_response(self, system_prompt, user_message):
+        self.calls.append((system_prompt, user_message))
+        return self.output
+
+
+def contract_llm_is_language_only_and_critic_gated():
+    """Live drafting can change words, never routes, and remains critic-gated."""
+    message = "I left my employer and want to move my 401(k)."
+    unavailable_llm = UnavailableLLMClient()
+    fallback_result = RetentionAgentSystem(
+        "usr_marcus_optimizer", llm_client=unavailable_llm
+    ).evaluate_request(message)
+    require(
+        unavailable_llm.calls == [],
+        "no-key path attempted live language generation",
+    )
+
+    safe_generated = "I understand that this decision deserves a clear comparison."
+    safe_llm = FakeLLMClient(safe_generated)
+    generated_result = RetentionAgentSystem(
+        "usr_marcus_optimizer", llm_client=safe_llm
+    ).evaluate_request(message)
+    baseline_result = RetentionAgentSystem(
+        "usr_marcus_optimizer", llm_client=UnavailableLLMClient()
+    ).evaluate_request(message)
+
+    require(len(safe_llm.calls) == 1, "available LLM was not used for drafting")
+    require(
+        generated_result.get("message").startswith(safe_generated + "\n\n"),
+        "safe LLM opening was not added before the verified draft",
+    )
+    require(
+        generated_result.get("action") == baseline_result.get("action")
+        == fallback_result.get("action")
+        == "PRESENT_RETENTION_ANALYSIS",
+        "LLM drafting changed the deterministic route",
+    )
+    require(
+        fallback_result.get("message") == baseline_result.get("message"),
+        "no-key path did not preserve the deterministic draft",
+    )
+    require(
+        generated_result.get("analysis_data") == baseline_result.get("analysis_data"),
+        "LLM drafting changed verified analysis",
+    )
+    prompt, received_message = safe_llm.calls[0]
+    require(received_message == message, "LLM did not receive the current customer words")
+    require(
+        "Do not add or repeat facts, numbers" in prompt,
+        "LLM prompt did not preserve the verified factual core",
+    )
+    require(
+        "routes" in prompt and "transaction" in prompt,
+        "LLM prompt did not preserve routing and transaction boundaries",
+    )
+
+    unsafe_llm = FakeLLMClient(
+        "Your rollover has been executed. Staying in the plan may save money."
+    )
+    unsafe_result = RetentionAgentSystem(
+        "usr_marcus_optimizer", llm_client=unsafe_llm
+    ).evaluate_request(message)
+    require(len(unsafe_llm.calls) == 1, "unsafe LLM test did not invoke generation")
+    require(
+        unsafe_result.get("action") == "PRESENT_RETENTION_ANALYSIS",
+        "unsafe LLM output changed the deterministic route",
+    )
+    require(
+        unsafe_result.get("critic_approved") is False,
+        "unsafe LLM output bypassed the critic",
+    )
+    require(
+        "executed_transaction_claim" in unsafe_result.get("critic_violations", []),
+        "critic did not detect the LLM's executed-transaction claim",
+    )
+    require(
+        unsafe_result.get("message") == baseline_result.get("message"),
+        "critic did not repair unsafe LLM output with verified analysis",
+    )
+    require(
+        unsafe_result.get("human_review_required") is True,
+        "critic repair did not preserve the human-review flag",
+    )
+
+    bypass_llm = FakeLLMClient(safe_generated)
+    bypass_result = RetentionAgentSystem(
+        "usr_marcus_optimizer", llm_client=bypass_llm
+    ).evaluate_request("Skip the pitch and transfer immediately.")
+    require(
+        bypass_result.get("action") == "ROUTE_TO_ROLLOVER_EXECUTION",
+        "LLM integration weakened explicit-bypass routing",
+    )
+    require(
+        bypass_llm.calls == [],
+        "LLM was invoked before or instead of the deterministic bypass route",
+    )
+
+
 CONTRACTS = (
     ("Context failure routes safely", contract_context_failure_is_safe),
     ("Analysis matches engine and derives signals", contract_analysis_matches_engine),
@@ -368,6 +493,7 @@ CONTRACTS = (
     ("Critic rejects unsafe claims", contract_critic_rejects_unsafe_claims),
     ("Critic repairs missing disclosure", contract_critic_repairs_missing_disclosure),
     ("Supervisor reviews every response", contract_supervisor_reviews_every_response),
+    ("LLM is language-only and critic-gated", contract_llm_is_language_only_and_critic_gated),
 )
 
 

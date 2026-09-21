@@ -6,12 +6,13 @@ from typing import Any, Dict, List, Optional
 from agents.analysis_agent import AnalysisAgent, AnalysisError
 from agents.compliance_critic import ComplianceCritic
 from agents.context_agent import ContextAgent, ContextError
+from llm_client import LLMClient
 
 
 class RetentionAgentSystem:
     """Routes requests and coordinates context, analysis, and compliance agents."""
 
-    def __init__(self, user_id: str):
+    def __init__(self, user_id: str, llm_client: Optional[LLMClient] = None):
         self.user_id = user_id
         self.high_balance_threshold = float(
             os.getenv("HIGH_BALANCE_THRESHOLD", "250000")
@@ -20,6 +21,7 @@ class RetentionAgentSystem:
         self.context_agent = ContextAgent()
         self.analysis_agent = AnalysisAgent()
         self.compliance_critic = ComplianceCritic()
+        self.llm_client = llm_client or LLMClient()
         self.context_error = None
 
         try:
@@ -69,6 +71,43 @@ class RetentionAgentSystem:
         response["critic_approved"] = review["approved"]
         response["critic_violations"] = review["violations"]
         return response
+
+    def _draft_retention_response(
+        self,
+        user_message: str,
+        analysis: Dict[str, Any],
+        deterministic_draft: str,
+    ) -> str:
+        """Optionally rewrite one eligible retention draft with an LLM.
+
+        The supervisor has already selected the route, advanced session state,
+        and produced verified analysis before this method runs. The LLM receives
+        no authority to change any of those values. If live generation is not
+        configured or fails, the deterministic draft remains the response.
+        Every returned draft still passes through ``_finalize_response`` and the
+        ComplianceCritic before it can reach the customer.
+        """
+        if not self.llm_client.is_live_available:
+            return deterministic_draft
+
+        system_prompt = (
+            "Write one brief empathetic opening sentence for the verified "
+            "comparison that will follow. Do not add or repeat facts, numbers, "
+            "assumptions, options, routes, tax or legal guidance, or transaction "
+            "status. Do not say or imply that a transfer, rollover, or transaction "
+            "has executed. Return only that opening sentence."
+        )
+        try:
+            generated = self.llm_client.generate_response(
+                system_prompt=system_prompt,
+                user_message=user_message,
+            )
+        except Exception:
+            return deterministic_draft
+
+        if not isinstance(generated, str) or not generated.strip():
+            return deterministic_draft
+        return generated.strip() + "\n\n" + deterministic_draft
 
     def evaluate_request(self, user_message: str) -> Dict[str, Any]:
         """Evaluate intent and enforce supervisor routing guardrails."""
@@ -266,6 +305,12 @@ class RetentionAgentSystem:
             "First-time analysis with optional specialist support and human-review flag."
             if self.is_high_balance
             else "First-time analysis produced by the agent workflow."
+        )
+
+        llm_msg = self._draft_retention_response(
+            user_message=user_message,
+            analysis=analysis_result,
+            deterministic_draft=llm_msg,
         )
 
         return self._finalize_response({
