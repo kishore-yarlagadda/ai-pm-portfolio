@@ -44,7 +44,7 @@ Every project in this portfolio utilizes standardized, professional-grade framew
 ### **2. 401(k) Retention Module (`401k-retention-project/`)**
 
 * **The Problem:** Significant asset leakage occurs when plan participants change jobs or initiate external rollovers due to a lack of proactive engagement loops and behavioral triggers.
-* **The Solution:** A retention framework combining **automated rollover risk detection**, **retention campaign efficiency Pareto tracking**, and **compliance-driven HITL oversight gates** to protect long-term Assets Under Management (AUM).
+* **The Solution:** A runnable synthetic-data prototype with deterministic rollover-intent routing, one fee comparison at most, immediate bypass to a rollover handoff, and rule-based compliance review. It demonstrates the workflow and guardrails; it does not claim production risk scoring, campaign optimization, or measured AUM impact.
 
 ---
 
