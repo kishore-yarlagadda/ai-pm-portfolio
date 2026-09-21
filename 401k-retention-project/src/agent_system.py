@@ -1,7 +1,7 @@
 """Supervisor for the three-agent 401(k) retention workflow."""
 
 import os
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from agents.analysis_agent import AnalysisAgent, AnalysisError
 from agents.compliance_critic import ComplianceCritic
@@ -43,21 +43,48 @@ class RetentionAgentSystem:
         self.current_state = "INITIAL"
         self.conversation_history: List[Dict[str, str]] = []
 
+    def _finalize_response(
+        self,
+        response: Dict[str, Any],
+        analysis: Optional[Dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """Run every customer-facing draft through the ComplianceCritic.
+
+        No response leaves the supervisor without critic review, whatever
+        route produced it: guardrail rejections, escalations, handoffs,
+        and the retention analysis alike. A rejected draft is replaced with
+        verified wording and flagged for human review.
+        """
+        review = self.compliance_critic.review(
+            message=response["message"],
+            route=response["action"],
+            context=self.context,
+            analysis=analysis,
+        )
+        response["message"] = review["message"]
+        response["human_review_required"] = bool(
+            response.get("human_review_required", False)
+            or review["human_review_required"]
+        )
+        response["critic_approved"] = review["approved"]
+        response["critic_violations"] = review["violations"]
+        return response
+
     def evaluate_request(self, user_message: str) -> Dict[str, Any]:
         """Evaluate intent and enforce supervisor routing guardrails."""
         if not self.is_session_active:
-            return {
+            return self._finalize_response({
                 "action": "SESSION_TERMINATED",
                 "reason": "Session has ended.",
                 "message": "This session has ended. Please restart the demo.",
                 "is_active": False,
-            }
+            })
 
         # Unknown or unavailable customer data must fail closed before routing.
         if self.context_error:
             self.is_session_active = False
             self.current_state = "GENERAL_SUPPORT"
-            return {
+            return self._finalize_response({
                 "action": "ROUTE_TO_GENERAL_SUPPORT",
                 "reason": "Customer context could not be verified.",
                 "message": (
@@ -67,7 +94,7 @@ class RetentionAgentSystem:
                 "is_active": False,
                 "human_review_required": True,
                 "agent_error": self.context_error,
-            }
+            })
 
         self.conversation_history.append(
             {"role": "user", "content": user_message}
@@ -83,7 +110,7 @@ class RetentionAgentSystem:
         if any(trigger in message_lower for trigger in jailbreak_triggers):
             self.is_session_active = False
             self.current_state = "COMPLIANCE_REVIEW"
-            return {
+            return self._finalize_response({
                 "action": "ROUTE_TO_COMPLIANCE_REVIEW",
                 "reason": "Prompt injection or policy override attempt detected.",
                 "message": (
@@ -93,7 +120,7 @@ class RetentionAgentSystem:
                 ),
                 "is_active": False,
                 "human_review_required": True,
-            }
+            })
 
         # 1. Service and complaint routing before any retention offer.
         out_of_scope_keywords = [
@@ -105,7 +132,7 @@ class RetentionAgentSystem:
         if any(keyword in message_lower for keyword in out_of_scope_keywords):
             self.is_session_active = False
             self.current_state = "GENERAL_SUPPORT"
-            return {
+            return self._finalize_response({
                 "action": "ROUTE_TO_GENERAL_SUPPORT",
                 "reason": "Request is outside the 401(k) rollover workflow.",
                 "message": (
@@ -114,7 +141,7 @@ class RetentionAgentSystem:
                     "presenting a retention offer."
                 ),
                 "is_active": False,
-            }
+            })
 
         human_review_keywords = [
             "regulator",
@@ -125,7 +152,7 @@ class RetentionAgentSystem:
         if any(keyword in message_lower for keyword in human_review_keywords):
             self.is_session_active = False
             self.current_state = "HUMAN_SERVICE_REVIEW"
-            return {
+            return self._finalize_response({
                 "action": "ROUTE_TO_HUMAN_SERVICE_REVIEW",
                 "reason": (
                     "Fraud allegation, regulator threat, or severe complaint "
@@ -137,14 +164,14 @@ class RetentionAgentSystem:
                 ),
                 "is_active": False,
                 "human_review_required": True,
-            }
+            })
 
         # 2. Tax and legal questions always receive human review.
         escalation_keywords = ["tax", "penalty", "rmd", "legal", "cfp", "advisor"]
         if any(keyword in message_lower for keyword in escalation_keywords):
             self.is_session_active = False
             self.current_state = "ESCALATED_TO_CFP"
-            return {
+            return self._finalize_response({
                 "action": "ESCALATE_TO_HUMAN_CFP",
                 "reason": "Tax/legal guardrail triggered.",
                 "message": (
@@ -153,7 +180,7 @@ class RetentionAgentSystem:
                     "Financial Planner now; no transaction has been executed."
                 ),
                 "is_active": False,
-            }
+            })
 
         # 3. Explicit bypass and the single-pivot rule go straight to handoff.
         bypass_keywords = [
@@ -172,18 +199,18 @@ class RetentionAgentSystem:
         if explicit_bypass or self.current_state == "PITCH_PRESENTED":
             self.is_session_active = False
             self.current_state = "ROLLOVER_COMPLETED"
-            return {
+            return self._finalize_response({
                 "action": "ROUTE_TO_ROLLOVER_EXECUTION",
                 "reason": (
                     "Explicit bypass requested or single-pivot guardrail enforced."
                 ),
                 "message": (
                     "I’m routing your request immediately to the rollover "
-                    "handoff, with no further retention offer. No transaction "
-                    "has been executed by this assistant."
+                    "handoff. I will not present another pitch or comparison, "
+                    "and no transaction has been executed by this assistant."
                 ),
                 "is_active": False,
-            }
+            })
 
         # 4. One supervised retention analysis: Context -> Analysis -> Critic.
         try:
@@ -191,12 +218,17 @@ class RetentionAgentSystem:
                 user_id=self.user_id,
                 high_balance_threshold=self.high_balance_threshold,
                 user_message=user_message,
+                session_messages=[
+                    entry["content"]
+                    for entry in self.conversation_history
+                    if entry["role"] == "user"
+                ],
             )
             analysis_result = self.analysis_agent.analyze(self.context)
         except (ContextError, AnalysisError) as exc:
             self.is_session_active = False
             self.current_state = "GENERAL_SUPPORT"
-            return {
+            return self._finalize_response({
                 "action": "ROUTE_TO_GENERAL_SUPPORT",
                 "reason": "Verified customer analysis could not be produced.",
                 "message": (
@@ -206,7 +238,7 @@ class RetentionAgentSystem:
                 "is_active": False,
                 "human_review_required": True,
                 "agent_error": str(exc),
-            }
+            })
 
         self.crm_data = self.context["crm"]
         self.portfolio_data = self.context["portfolio"]
@@ -229,25 +261,14 @@ class RetentionAgentSystem:
             if self.is_high_balance
             else "PRESENT_RETENTION_ANALYSIS"
         )
-        critic_review = self.compliance_critic.review(
-            message=llm_msg,
-            route=action,
-            context=self.context,
-            analysis=analysis_result,
-        )
-        llm_msg = critic_review["message"]
 
         reason = (
             "First-time analysis with optional specialist support and human-review flag."
             if self.is_high_balance
             else "First-time analysis produced by the agent workflow."
         )
-        human_review_required = bool(
-            self.is_high_balance
-            or critic_review.get("human_review_required", False)
-        )
 
-        return {
+        return self._finalize_response({
             "action": action,
             "reason": reason,
             "message": llm_msg,
@@ -256,8 +277,6 @@ class RetentionAgentSystem:
             "analysis_assumptions": analysis_result["assumptions"],
             "analysis_options": analysis_result["options"],
             "customer_signals": analysis_result["customer_signals"],
-            "human_review_required": human_review_required,
+            "human_review_required": bool(self.is_high_balance),
             "specialist_option_offered": self.is_high_balance,
-            "critic_approved": critic_review["approved"],
-            "critic_violations": critic_review["violations"],
-        }
+        }, analysis=analysis_result)

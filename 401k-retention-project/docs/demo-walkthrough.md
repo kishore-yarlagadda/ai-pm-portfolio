@@ -6,7 +6,7 @@
 
 ## 0:20-0:50 - Architecture and AI boundary
 
-A deterministic supervisor owns routing and state, and coordinates three agents that each do one job: a ContextAgent validates the customer and derives session signals from the current message, an AnalysisAgent runs the fee engine and returns verified figures with assumptions and options, and a ComplianceCritic rejects or repairs unsafe wording before anything reaches the customer. The design pairs agentic analysis with deterministic authority boundaries on purpose: generation and decomposition make the comparison useful, while routes, guardrails, and customer rights stay rule-based and testable. The optional LLM only shapes response language; it cannot choose a route, override a guardrail, or claim a transaction.
+A deterministic supervisor owns routing and state, and coordinates three agents that each do one job: a ContextAgent validates the customer and derives session signals from the customer's own words in the session, an AnalysisAgent runs the fee engine and returns verified figures with assumptions and options, and a ComplianceCritic reviews every customer-facing response on every route, rejecting or repairing unsafe wording before anything reaches the customer. The design pairs agentic analysis with deterministic authority boundaries on purpose: generation and decomposition make the comparison useful, while routes, guardrails, and customer rights stay rule-based and testable. The optional LLM only shapes response language; it cannot choose a route, override a guardrail, or claim a transaction.
 
 ## 0:50-1:20 - Show the safety behavior
 
@@ -14,7 +14,7 @@ Run the interactive demo, pick any persona, and enter an explicit bypass such as
 
 ## 1:20-1:45 - Show evaluation discipline
 
-Run python evals/eval_harness.py. The nine checks cover direct bypass, tax escalation, high-balance flags, out-of-scope support, severe complaints, prompt injection, and the real two-turn single-pivot sequence. Then run python evals/agent_contracts.py. The four contract checks prove each agent does distinct work: context failures route safely, analysis figures match the engine exactly, session signals come from the current message rather than persona labels, and the critic rejects and repairs executed-transaction claims, tax advice, and missing disclosures.
+Run python evals/eval_harness.py. The nine checks cover direct bypass, tax escalation, high-balance flags, out-of-scope support, severe complaints, prompt injection, and the real two-turn single-pivot sequence. Then run python evals/agent_contracts.py. The six contract checks prove each agent does distinct work: context failures route safely, analysis figures match the engine exactly, session signals come from the session's customer words and provably ignore fixture notes and persona labels, the critic rejects and repairs executed-transaction claims, tax advice, and missing disclosures, and every supervisor route returns only critic-reviewed responses.
 
 ## 1:45-2:00 - Close honestly
 

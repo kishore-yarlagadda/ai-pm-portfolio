@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Sequence
 
 from connectors import EnterpriseDataConnectors
 
@@ -22,6 +22,7 @@ class ContextAgent:
             user_id: str,
             high_balance_threshold: float,
             user_message: str = "",
+            session_messages: Optional[Sequence[str]] = None,
     ) -> Dict[str, Any]:
         try:
             crm = EnterpriseDataConnectors.get_crm_history(user_id)
@@ -38,9 +39,8 @@ class ContextAgent:
         )
         self._validate_numeric(portfolio)
         customer_signals = self._derive_signals(
-            crm=crm,
             portfolio=portfolio,
-            user_message=user_message,
+            session_text=self._session_text(user_message, session_messages),
             high_balance_threshold=high_balance_threshold,
         )
         return {
@@ -85,24 +85,44 @@ class ContextAgent:
                 )
 
     @staticmethod
-    def _derive_signals(
-        crm: Dict[str, Any],
-        portfolio: Dict[str, Any],
+    def _session_text(
         user_message: str,
+        session_messages: Optional[Sequence[str]],
+    ) -> str:
+        """Return the customer's own words for signal derivation.
+
+        When the supervisor supplies the session's customer messages, they
+        are the signal source; otherwise the single current message is.
+        """
+        if session_messages is not None:
+            return " ".join(session_messages)
+        return user_message
+
+    @staticmethod
+    def _derive_signals(
+        portfolio: Dict[str, Any],
+        session_text: str,
         high_balance_threshold: float,
     ) -> Dict[str, bool]:
-        message = user_message.lower()
-        notes = crm.get("csa_notes", "").lower()
+        """Derive transparent, multi-label signals from this session only.
+
+        Signals come from the customer's own words in the current session
+        plus verified account data. CRM case notes and persona fixture
+        labels are deliberately excluded: they are stable per fixture, so
+        deriving signals from them would misrepresent a fixed persona
+        property as observed session behavior.
+        """
+        text = session_text.lower()
         return {
             "high_balance": (
                 portfolio["total_balance"] >= high_balance_threshold
             ),
             "fee_sensitive": any(
-                term in f"{message} {notes}"
+                term in text
                 for term in ("fee", "cost", "expense", "low-cost")
             ),
             "urgent_exit": any(
-                term in f"{message} {notes}"
+                term in text
                 for term in (
                     "immediately",
                     "skip",
@@ -112,7 +132,7 @@ class ContextAgent:
                 )
             ),
             "tax_complexity": any(
-                term in f"{message} {notes}"
+                term in text
                 for term in ("tax", "penalty", "rmd")
             ),
         }

@@ -9,15 +9,15 @@ An AI-assisted multi-agent customer workflow designed to balance retention goals
 
 ## 3. Agent Architecture & Responsibilities
 * **Supervisor / Router (`src/agent_system.py`):** Evaluates intent, checks state history, and enforces routing guardrails in a fixed order. It is the only component allowed to choose an action or change session state, and it calls the agent pipeline only on an eligible retention turn.
-* **ContextAgent (`src/agents/context_agent.py`):** Builds validated customer context from the synthetic CRM and portfolio fixtures. It rejects unknown or invalid customers (`ContextError`) and derives session-level signals from the current message and data: `high_balance`, `fee_sensitive`, `urgent_exit`, and `tax_complexity`.
+* **ContextAgent (`src/agents/context_agent.py`):** Builds validated customer context from the synthetic CRM and portfolio fixtures. It rejects unknown or invalid customers (`ContextError`) and derives session-level signals from the customer's own words in the current session plus verified account data; CRM case notes and persona labels never contribute: `high_balance`, `fee_sensitive`, `urgent_exit`, and `tax_complexity`.
 * **AnalysisAgent (`src/agents/analysis_agent.py`):** Owns the what-if fee engine. Returns figures, explicit assumptions, customer options, and a summary, and raises `AnalysisError` when verified analysis cannot be produced. Its figures must match the engine exactly - no invented numbers.
-* **ComplianceCritic (`src/agents/compliance_critic.py`):** Deterministic rule-based review of customer-facing drafts. Rejects executed-transaction claims, tax or legal advice, retention language on a bypass route, and missing synthetic/not-advice disclosures, then repairs the draft with verified text and flags human review.
+* **ComplianceCritic (`src/agents/compliance_critic.py`):** Deterministic rule-based review of customer-facing drafts. Rejects executed-transaction claims, tax or legal advice, retention language on a bypass route, and missing synthetic/not-advice disclosures, then repairs the draft with verified text and flags human review. The supervisor passes every customer-facing draft on every route through the critic before returning it.
 
 There is deliberately no execution agent: the bypass outcome is a rollover handoff - a deterministic routing decision, not a transaction. The internal action constant `ROUTE_TO_ROLLOVER_EXECUTION` remains stable for evaluation compatibility and does not mean a transaction executes.
 
 ## 4. Fixture Personas vs. Derived Session Signals
 * **Fixture personas** (`src/connectors.py`): three synthetic customers (a fee-sensitive optimizer, a frustrated urgent exiter, and a tax-sensitive near-retiree) exist only to make the demo and evaluations reproducible. They are test fixtures, not a customer model.
-* **Derived session signals:** the ContextAgent computes `high_balance`, `fee_sensitive`, `urgent_exit`, and `tax_complexity` on each turn from the current message and account data. Persona labels never drive routing or messaging on their own; the contract tests verify that the same signals appear for any fixture whose current message expresses them.
+* **Derived session signals:** the ContextAgent computes `high_balance`, `fee_sensitive`, `urgent_exit`, and `tax_complexity` on each turn from the customer messages in the current session and account data. CRM case notes and persona labels never set a signal; the contract tests verify that identical session wording yields identical signals for every fixture, and that fixture notes alone never turn a signal on.
 
 ## 5. Key Guardrails & Principles
 * **Single-Pivot Rule:** Maximum of 1 retention attempt per session. If the user insists on leaving or declines the offer, instantly transition to the rollover handoff.
@@ -27,7 +27,7 @@ There is deliberately no execution agent: the bypass outcome is a rollover hando
 * **Safe Failure:** When verified customer context or analysis cannot be produced, the system routes to general support rather than fabricating an answer.
 
 ## 6. Success Metrics
-* **Prototype KPIs (measured):** Evaluation harness route/flag accuracy (currently 9/9 checks passing), per-agent contract checks (currently 4/4 passing), guardrail violations across the suite (0).
+* **Prototype KPIs (measured):** Evaluation harness route/flag accuracy (currently 9/9 checks passing), per-agent contract checks (currently 6/6 passing), guardrail violations across the suite (0).
 * **Business KPIs (future validation only):** AUM retained, retention conversion rate, post-interaction NPS. No business lift is claimed from this prototype.
 
 ## 7. Routing Policy
