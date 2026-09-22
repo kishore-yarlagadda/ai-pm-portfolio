@@ -67,12 +67,12 @@ graph TD
 
 **Orchestrator Overview (`orchestrator.py`)**
 
-The orchestrator script manages the automated compilation of feature requests into structured product documentation.
+The orchestrator is a Pydantic state machine that governs progression through the engineering lifecycle. It does not generate documents: the templates above are authored through the human/LLM workflow, and the orchestrator enforces the review gates around them.
 
-* **Dynamic Variable Injection**: Injects target feature requests into standardized Markdown templates.
-* **Directory Management**: Automatically provisions structured output directories (`documents/` and `prds/`) for each distinct project workspace.
-* **Human-in-the-Loop (HITL) Gates**: Halts execution at the end of each lifecycle phase, prompting interactive terminal sign-off before proceeding to the next artifact.
-* **Pipeline Decoupling**: Enforces complete separation between product definition phases and future engineering/code implementation steps.
+* **State Persistence**: Saves workflow state to `.sdlc_state.json` in the working directory and resumes from it on the next run.
+* **Human-in-the-Loop (HITL) Gates**: Requires explicit terminal approval for the Engineering Architecture Specification, then the Implementation Task Plan. Anything other than approval halts the workflow and persists state.
+* **Automated Quality Gates**: After both approvals, runs `mypy` type checks and `pytest` with a >=85% coverage threshold (`pytest-cov`) against the project source directory (`src/` by default). Both tools must be installed.
+* **Outcome Routing**: Passing gates marks the feature completed and verified; failing gates route the workflow to incident triage for bug-report-driven remediation.
 
 ---
 
@@ -112,13 +112,12 @@ The test fails if a canonical PM template is missing, if a retired duplicate (di
 
 **Execution Workflow**
 
-1. Activate the python environment and navigate to the working directory.
-2. Run the orchestrator script to initialize the documentation pipeline:
+1. Activate the python environment and navigate to the project workspace.
+2. Author the specification and task plan from the templates in `workflows/templates/` through your normal human/LLM workflow.
+3. Run the orchestrator to enforce the review gates:
 ```bash
-python workflows/orchestrator.py
+python3 workflows/orchestrator.py
 
 ```
-
-
-3. Input the target feature request or accept the default prompt (e.g., the LLM Evaluator module).
-4. Review generated markdown files interactively at each **Product HITL Gate** before approving completion.
+   The demo entry point hard-codes a feature name; instantiate `SDLCOrchestrator` with your own feature name when wiring it into a project.
+4. Approve or reject each **HITL gate** in the terminal. Once both are approved, the orchestrator runs the mypy and pytest coverage gates against `src/` and reports the result.
