@@ -13,15 +13,14 @@ agentic-pm-sdlc/
 │   │   ├── architecture.md
 │   │   ├── bug_report_template.md
 │   │   ├── code_template.py
-│   │   ├── discovery.md
 │   │   ├── discovery_template.md
 │   │   ├── engineering_spec_template.md
-│   │   ├── prd.md
 │   │   ├── prd_template.md
-│   │   ├── strategy.md
 │   │   ├── strategy_template.md
 │   │   ├── task_plan_template.md
 │   │   └── test_template.py
+│   ├── tests/                          # Template integrity checks
+│   │   └── test_pm_templates.py
 │   └── orchestrator.py                 # Pydantic state-machine & workflow runner
 └── readme.md                           # Project documentation & architecture overview
 
@@ -79,23 +78,35 @@ The orchestrator script manages the automated compilation of feature requests in
 
 **Template Specifications (`workflows/templates/`)**
 
-Each template inside the directory serves a precise methodological function within the product lifecycle:
+The three product-management templates are the canonical, editable sources for their artifacts. They share one rule: every fact cites a source, and anything not known stays marked UNKNOWN instead of being filled with a plausible value. The retired duplicates (discovery.md, strategy.md, prd.md) were removed; do not reintroduce copies.
 
-* **`strategy_template.md` (RISE Framework)**
-* *Focus*: Strategic planning and risk assessment.
-* *Sections*: Executive Summary & Strategic Alignment, RISE Evaluation Matrix (Relevance, Impact, Strategic Fit, Effort), and Pre-Mortem Risk Analysis.
-
-
-* **`discovery_template.md` (PACT Framework)**
-* *Focus*: User research and contextual environment mapping.
-* *Sections*: Target Audience & Personas, Activities & Jobs-to-be-Done (JTBD), and Operational Context & Constraints.
+* **`discovery_template.md` (Evidence-first discovery)**
+* *Focus*: User and problem research grounded in cited evidence.
+* *Sections*: Source register, unknown register, claim ledger with supporting and contradicting sources, observed user groups and workflows, root-cause tests, LLM probe taxonomy, and scoring/cost questions.
 
 
-* **`prd_template.md` (Merged PostHog / Atlassian Model)**
-* *Focus*: Detailed feature requirements and traceability.
-* *Sections*: Executive Summary & Problem Context, Target Audience & Scope, Success Metrics & KPIs, Functional Requirements & User Stories Matrix, Key User Flows & Edge Cases, and Assumptions & Open Questions Log.
+* **`strategy_template.md` (Evidence-driven strategy)**
+* *Focus*: Selecting a direction from discovery evidence without manufacturing facts.
+* *Sections*: Evidence carried forward from discovery, the decision to make, metric contracts (definition, baseline, target, guardrail, owner), sourced option evaluation, evaluator score/cost/Pareto policy, HITL transition controls, data contracts, evidence-based sequencing, and a decision record.
 
 
+* **`prd_template.md` (Traceable requirements)**
+* *Focus*: Requirements that trace back to evidence and strategy decisions.
+* *Sections*: Document control with source IDs, traceability rules, problem and outcome, scope, traceable requirements, evaluator execution and score contracts, cost/Pareto output, auditable HITL states, data contracts, observable acceptance criteria, and explicit prototype limits.
+
+
+
+---
+
+**Template Validation (`workflows/tests/`)**
+
+Run the template integrity checks:
+
+```bash
+python3 workflows/tests/test_pm_templates.py
+```
+
+The test fails if a canonical PM template is missing, if a retired duplicate (discovery.md, strategy.md, prd.md) reappears, if known unsupported claims or hard-coded values show up in a template, or if a relative link between templates breaks.
 
 ---
 
@@ -110,4 +121,4 @@ python workflows/orchestrator.py
 
 
 3. Input the target feature request or accept the default prompt (e.g., the LLM Evaluator module).
-4. Review generated markdown files interactively at each **Product HITL Gate** before approving completion.		
+4. Review generated markdown files interactively at each **Product HITL Gate** before approving completion.

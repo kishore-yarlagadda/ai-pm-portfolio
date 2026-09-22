@@ -1,7 +1,7 @@
 # Engineering Architecture Specification: {feature_request}
 **Status:** Draft / Pending Architectural Review
 **Technical Lead:** AI SDLC Engineering Agent
-**Related PRD:** [Product Requirements Document](../prds/product_requirement_doc.md)
+**Related PRD:** [Product Requirements Document](prd_template.md)
 
 ## 1. System Topology & Component Boundaries (`src/`)
 * **`src/core/` (Domain Logic & State Machines):**

@@ -1,7 +1,7 @@
 # Implementation & Task Plan: {feature_request}
 **Status:** Pending Engineering Sign-Off
 **Assigned Agent / Developer:** AI SDLC Execution Agent
-**Related Architecture Spec:** [Engineering Spec](../documents/engineering_spec_template.md)
+**Related Architecture Spec:** [Engineering Spec](engineering_spec_template.md)
 
 ## 1. Execution Overview & Objective
 * **Core Objective:** Translate the approved architectural design into granular, testable development tasks while maintaining strict compliance with Pydantic contracts and error-handling boundaries.
