@@ -1,6 +1,6 @@
 # AI Product Management Portfolio: SDLC Orchestrator & Case Studies
 
-Welcome to my AI Product Management Portfolio repository. This workspace demonstrates an outcome-driven product management framework designed for AI systems, financial tech, and enterprise automation. It decouples value-focused product strategy artifacts from technical engineering code generation, ensuring alignment from initial product discovery to requirements engineering.
+Welcome to my AI Product Management Portfolio repository. This workspace demonstrates an outcome-driven product management framework. It decouples value-focused product strategy artifacts from technical engineering code generation, ensuring alignment from initial product discovery to requirements engineering.
 
 ---
 
@@ -9,18 +9,20 @@ Welcome to my AI Product Management Portfolio repository. This workspace demonst
 ```text
 ai-pm-portfolio/
 ├── agentic-pm-sdlc/            # Modular PM SDLC Orchestrator & Workflows
-│   ├── workflows/              # Python automation scripts & PM templates
-│   │   ├── orchestrator.py     # Interactive pipeline controller with HITL gates
-│   │   └── templates/          # RISE, PACT, and Merged PRD templates
-│   └── README.md               # Detailed orchestrator workflow guide
+│   └── workflows/              # Python automation scripts & PM templates
+│       ├── orchestrator.py     # Six-agent interactive pipeline with HITL gates
+│       ├── templates/          # Canonical PM templates: discovery, strategy,
+│       │                       # PRD, and user stories
+│       └── tests/              # Template integrity test suite
 ├── llm-evaluator-project/      # Featured AI Case Study: LLM Adversarial Probing
 │   ├── documents/              # Strategy specs and PACT discovery reports
 │   └── prds/                   # Production-grade requirements documents
 └── 401k-retention-project/     # Featured Fintech Case Study: Asset Leakage & Retention
     ├── documents/              # Strategy specs and PACT discovery reports
     └── prds/                   # Production-grade requirements documents
-
 ```
+
+New features run through the orchestrator generate their own top-level project folder with the same documents / prds structure, plus a tests folder for generated test assets.
 
 ---
 
@@ -31,6 +33,7 @@ Every project in this portfolio utilizes standardized, professional-grade framew
 1. **Strategy & Planning (RISE Framework):** Evaluates features based on *Relevance, Impact, Strategic Fit, and Effort*, supplemented by structured pre-mortem risk mitigation analysis.
 2. **Product Discovery (PACT Framework):** Maps *People, Activities, Context, and Technologies* to establish explicit user Jobs-to-be-Done (JTBD).
 3. **Requirements & Traceability (Merged PostHog / Atlassian Model):** Combines narrative problem framing with structured user story matrices, priority definitions (`P0`, `P1`), and failure-mode analysis.
+4. **Evidence Discipline:** Every template requires claims to trace back to the supplied feature definition. Unknowns are explicitly marked `UNKNOWN` and open assumptions are labeled as hypotheses, so generated artifacts never present guesses as facts.
 
 ---
 
@@ -50,29 +53,33 @@ Every project in this portfolio utilizes standardized, professional-grade framew
 
 ## **Running the Orchestrator Pipeline**
 
-To experience how these standardized requirements and strategies are dynamically compiled through automated Python workflows:
+The orchestrator takes a feature definition and compiles it into a full requirements package by passing it through six specialized agents - discovery, strategy, PRD, engineering spec, user stories, and tests - with a human review gate between each stage.
 
 1. **Set up your environment:**
 ```bash
 python -m venv venv
 source venv/bin/activate
-
+pip install google-genai
 ```
 
+2. **Give the script your Gemini API key:**
+```bash
+export GEMINI_API_KEY=your_key_here
+```
 
-2. **Execute the orchestrator script:**
+3. **Run the orchestrator from the repository root:**
 ```bash
 python agentic-pm-sdlc/workflows/orchestrator.py
-
 ```
 
+4. **What happens when you run it:**
 
-3. **Interact with the Lifecycle Gates:**
-* Enter your target feature request or output module name.
-* Review and approve generated product assets sequentially at each **Product HITL Gate** before downstream progression.
+* The script asks for your feature name and definition interactively - no flags needed.
+* Each agent drafts its artifact, then pauses at a **Product HITL Gate** - you approve before the next agent builds on it.
+* Artifacts land in a project folder named after your feature, organized into `documents/`, `prds/`, and `tests/`.
+* Transient Gemini failures (5xx and rate limits) retry automatically with backoff.
 
-
-
-```
-
+5. **Optional model override:** the pipeline defaults to `gemini-3.6-flash`. If a model is experiencing demand spikes, point it at any model your key can access:
+```bash
+export GEMINI_MODEL=gemini-3.5-flash
 ```
