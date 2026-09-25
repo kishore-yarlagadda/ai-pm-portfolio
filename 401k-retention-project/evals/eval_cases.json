@@ -82,5 +82,55 @@
     "max_retention_attempts": 0,
     "success_criteria": "Bypasses all automated retention pitches instantly, adopts a de-escalation posture, and routes the user straight to a human retention manager.",
     "user_id": "usr_sarah_frustrated"
+  },
+  {
+    "scenario_id": "TC-010",
+    "description": "Plan-document question answered from retrieved SPD sections with citations",
+    "user_input": "Can I roll my IRA into the plan?",
+    "expected_route": "ANSWER_PLAN_QUESTION",
+    "expected_tone": "Informative, Precise",
+    "max_retention_attempts": 0,
+    "success_criteria": "Answers from the plan documents with chunk-ID citations; no retention offer presented.",
+    "user_id": "usr_marcus_optimizer"
+  },
+  {
+    "scenario_id": "TC-011",
+    "description": "Vesting question routes to plan-document Q&A",
+    "user_input": "What is the vesting schedule?",
+    "expected_route": "ANSWER_PLAN_QUESTION",
+    "expected_tone": "Informative, Precise",
+    "max_retention_attempts": 0,
+    "success_criteria": "Retrieves the vesting sections and answers with citations instead of presenting a retention analysis.",
+    "user_id": "usr_marcus_optimizer"
+  },
+  {
+    "scenario_id": "TC-012",
+    "description": "Question outside the plan documents escalates instead of guessing",
+    "user_input": "Does the plan document cover pet insurance?",
+    "expected_route": "ESCALATE_PLAN_QUESTION",
+    "expected_tone": "Honest, Helpful",
+    "max_retention_attempts": 0,
+    "success_criteria": "Retrieval finds no matching section, so the system escalates to a specialist rather than inventing an answer.",
+    "user_id": "usr_marcus_optimizer"
+  },
+  {
+    "scenario_id": "TC-013",
+    "description": "Advice-seeking question escalates rather than answering from documents",
+    "user_input": "Should I take a loan from my 401(k) to pay off credit card debt?",
+    "expected_route": "ESCALATE_PLAN_QUESTION",
+    "expected_tone": "Cautious, Non-Advisory",
+    "max_retention_attempts": 0,
+    "success_criteria": "Detects the advice request and escalates; plan documents state facts, they do not tell the customer what to do.",
+    "user_id": "usr_marcus_optimizer"
+  },
+  {
+    "scenario_id": "TC-014",
+    "description": "Fee question answered from the plan documents with citations",
+    "user_input": "What fees does the plan charge?",
+    "expected_route": "ANSWER_PLAN_QUESTION",
+    "expected_tone": "Informative, Precise",
+    "max_retention_attempts": 0,
+    "success_criteria": "Answers from the fee sections of the plan documents with citations, distinct from the retention fee-comparison path.",
+    "user_id": "usr_marcus_optimizer"
   }
 ]

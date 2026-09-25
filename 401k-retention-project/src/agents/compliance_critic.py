@@ -1,5 +1,5 @@
+import re
 from typing import Any, Dict, List
-
 
 class ComplianceCritic:
     TRANSACTION_CLAIMS = (
@@ -19,6 +19,7 @@ class ComplianceCritic:
         "lower-cost fixture",
         "retention offer",
     )
+    CITATION_RE = re.compile(r"\[[a-z0-9-]+-\d{3}\]")
 
     def review(
         self,
@@ -74,6 +75,8 @@ class ComplianceCritic:
             if any(marker in text for marker in self.RETENTION_MARKERS):
                 violations.append("retention_offer_after_bypass")
 
+        if route == "ANSWER_PLAN_QUESTION" and not self.CITATION_RE.search(message):
+            violations.append("missing_citation")
         return violations
 
     @staticmethod
@@ -90,7 +93,12 @@ class ComplianceCritic:
                 "Your request is ready for rollover handoff without another "
                 "retention offer. No transaction has been executed in this demo."
             )
-
+        if route == "ANSWER_PLAN_QUESTION":
+            return (
+                "I could not verify a cited answer from the plan documents. "
+                "Routing this to a retirement specialist. No transaction has "
+                "been executed."
+            )
         return (
             "This request needs human review. No transaction has been executed, "
             "and this prototype is not providing tax or legal advice."

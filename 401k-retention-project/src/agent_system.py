@@ -7,7 +7,7 @@ from agents.analysis_agent import AnalysisAgent, AnalysisError
 from agents.compliance_critic import ComplianceCritic
 from agents.context_agent import ContextAgent, ContextError
 from llm_client import LLMClient
-
+from plan_qa import PlanDocQA
 
 class RetentionAgentSystem:
     """Routes requests and coordinates context, analysis, and compliance agents."""
@@ -31,6 +31,7 @@ class RetentionAgentSystem:
         self.context_agent = ContextAgent()
         self.analysis_agent = AnalysisAgent()
         self.compliance_critic = ComplianceCritic()
+        self.plan_qa = PlanDocQA()
         self.llm_client = llm_client or LLMClient()
         self.context_error = None
 
@@ -237,6 +238,35 @@ class RetentionAgentSystem:
                 ),
                 "is_active": False,
             })
+
+        # 2.5 Plan-document questions get retrieval-grounded cited answers.
+        plan_doc_keywords = [
+            "vesting",
+            "vested",
+            "eligibility",
+            "hardship",
+            "expense ratio",
+            "employer match",
+            "rollover into",
+            "roll my ira",
+            "roll an old",
+            "contribution limit",
+            "auto-enroll",
+            "auto-escalation",
+            "in-service withdrawal",
+            "plan document",
+            "spd",
+            "what fees",
+            "loan",
+        ]
+        if any(keyword in message_lower for keyword in plan_doc_keywords):
+            qa_result = self.plan_qa.answer(user_message)
+            if qa_result["action"] == "ESCALATE_PLAN_QUESTION":
+                self.is_session_active = False
+                self.current_state = "HUMAN_SERVICE_REVIEW"
+            else:
+                self.current_state = "PLAN_QA"
+            return self._finalize_response(qa_result)
 
         # 3. Explicit bypass and the single-pivot rule go straight to handoff.
         bypass_keywords = [
