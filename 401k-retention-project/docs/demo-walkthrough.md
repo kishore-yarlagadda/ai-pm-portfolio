@@ -26,3 +26,17 @@ source .venv/bin/activate
 python src/interactive_demo.py
 python evals/eval_harness.py
 python evals/agent_contracts.py
+
+## Plan document Q&A (retrieval-grounded)
+
+The agent can now answer questions about 401(k) plan documents. Sample questions: What is the vesting schedule? When am I eligible to contribute? What is the employer match?
+
+How it works, end to end:
+1. The supervisor classifies the question and routes plan-document questions to the plan Q&A path.
+2. Retrieval runs BM25 keyword search over synthetic Summary Plan Descriptions (SPDs). Tokenization strips stopwords and singularizes words so filler words do not dominate the match.
+3. Matches scoring below a minimum threshold (1.0, set from measured scores) are treated as no match.
+4. The answer is grounded in the retrieved section and cites the source plan.
+5. If nothing matches, or the question asks for personal advice, the question escalates to a human instead of guessing.
+6. The compliance critic rejects any plan answer that is missing its citation.
+
+Evals: five new cases (TC-010 to TC-014) cover cited answers, no-match escalation, and advice-seeking escalation. Full suite: 14 of 14 passing.
