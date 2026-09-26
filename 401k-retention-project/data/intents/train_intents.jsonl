@@ -1,0 +1,520 @@
+{"text": "Am I fully vested yet?", "label": "PLAN_QUESTION"}
+{"text": "Hello, what does the plan charge me every year?", "label": "FEE_QUESTION"}
+{"text": "Hey, what's the penalty for early withdrawal?", "label": "TAX_ADVICE"}
+{"text": "I'm furious about the fees you charged me", "label": "COMPLAINT"}
+{"text": "Hello, this company doesn't care about participants?", "label": "COMPLAINT"}
+{"text": "how often is the match deposited.", "label": "PLAN_QUESTION"}
+{"text": "The app keeps crashing when I sign in?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hi, i was just checking how this chat works.", "label": "OTHER"}
+{"text": "i was just checking how this chat works", "label": "OTHER"}
+{"text": "good morning, i want to roll my 401k over to an IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "Am I fully vested yet", "label": "PLAN_QUESTION"}
+{"text": "Are there fees for rolling over?", "label": "FEE_QUESTION"}
+{"text": "hi, what does the plan charge me every year.", "label": "FEE_QUESTION"}
+{"text": "i'm retiring in 2026 - should the money stay or go.", "label": "COMPARISON_REQUEST"}
+{"text": "Hi, where do I find my statement?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Good morning, what are the fund fees in my 401k", "label": "FEE_QUESTION"}
+{"text": "which is smarter for $4,000, stay or roll?", "label": "COMPARISON_REQUEST"}
+{"text": "hey, should I keep my money in the plan or roll it over?", "label": "COMPARISON_REQUEST"}
+{"text": "hello, how do I unsubscribe from marketing emails.", "label": "OTHER"}
+{"text": "i need to withdraw my 401k money.", "label": "TRANSFER_REQUEST"}
+{"text": "I left my old employer and want my $67,000 moved out?", "label": "TRANSFER_REQUEST"}
+{"text": "Hi, the website says my account is locked", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hi, do you have an office in Hartford", "label": "OTHER"}
+{"text": "Good morning, what's the expense ratio on the target date fund.", "label": "FEE_QUESTION"}
+{"text": "How much tax will I pay on a withdrawal at 62?", "label": "TAX_ADVICE"}
+{"text": "hey, will I owe taxes if I roll over to a Roth", "label": "TAX_ADVICE"}
+{"text": "Good morning, i can't log into my account.", "label": "ACCOUNT_SUPPORT"}
+{"text": "Help me decide between the plan and an IRA?", "label": "COMPARISON_REQUEST"}
+{"text": "Hi, thanks for your help yesterday", "label": "OTHER"}
+{"text": "Roll my $4,000 into my existing IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "Should I do a Roth conversion this year to save on taxes.", "label": "TAX_ADVICE"}
+{"text": "hey, is this a real person", "label": "OTHER"}
+{"text": "Hello, what time does the call center open?", "label": "OTHER"}
+{"text": "Hello, how do the fees here compare to an IRA.", "label": "FEE_QUESTION"}
+{"text": "Your website lost my paperwork twice?", "label": "COMPLAINT"}
+{"text": "i want to file a formal complaint?", "label": "COMPLAINT"}
+{"text": "Can I avoid the 10 percent penalty.", "label": "TAX_ADVICE"}
+{"text": "Hi, i'd like to cash out my 401k?", "label": "TRANSFER_REQUEST"}
+{"text": "when am I eligible to contribute", "label": "PLAN_QUESTION"}
+{"text": "how much am I paying in expense ratios.", "label": "FEE_QUESTION"}
+{"text": "this is ridiculous, nobody answers the phone", "label": "COMPLAINT"}
+{"text": "How do I unsubscribe from marketing emails?", "label": "OTHER"}
+{"text": "Hey, what are the pros and cons of leaving my 401k where it is?", "label": "COMPARISON_REQUEST"}
+{"text": "How much tax will I pay on a withdrawal at 62.", "label": "TAX_ADVICE"}
+{"text": "i'm retiring in 2026 - should the money stay or go", "label": "COMPARISON_REQUEST"}
+{"text": "hey, how often is the match deposited?", "label": "PLAN_QUESTION"}
+{"text": "What's the penalty for early withdrawal.", "label": "TAX_ADVICE"}
+{"text": "What are the tax consequences of cashing out", "label": "TAX_ADVICE"}
+{"text": "Hi, help me decide between the plan and an IRA.", "label": "COMPARISON_REQUEST"}
+{"text": "Which is smarter for $12,500, stay or roll", "label": "COMPARISON_REQUEST"}
+{"text": "i'm retiring in 2025 - should the money stay or go.", "label": "COMPARISON_REQUEST"}
+{"text": "should I do a Roth conversion this year to save on taxes", "label": "TAX_ADVICE"}
+{"text": "I left Lakeshore Services and want my $12,500 moved out.", "label": "TRANSFER_REQUEST"}
+{"text": "Hey, when do employer contributions become mine?", "label": "PLAN_QUESTION"}
+{"text": "Hello, how do the fees here compare to an IRA?", "label": "FEE_QUESTION"}
+{"text": "Which is smarter for $23,000, stay or roll?", "label": "COMPARISON_REQUEST"}
+{"text": "can I avoid the 10 percent penalty", "label": "TAX_ADVICE"}
+{"text": "How much do I pay in administrative fees?", "label": "FEE_QUESTION"}
+{"text": "how do I reset my password", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hello, i'm furious about the fees you charged me", "label": "COMPLAINT"}
+{"text": "Do you have a mobile app?", "label": "OTHER"}
+{"text": "Hi, why is it so hard to get my own money?", "label": "COMPLAINT"}
+{"text": "Hi, how do I move my money out of the plan?", "label": "TRANSFER_REQUEST"}
+{"text": "Transfer my balance to my IRA at my bank please?", "label": "TRANSFER_REQUEST"}
+{"text": "Hello, when am I eligible to contribute", "label": "PLAN_QUESTION"}
+{"text": "which is smarter for $150,000, stay or roll", "label": "COMPARISON_REQUEST"}
+{"text": "i left my old employer and want my $12,500 moved out", "label": "TRANSFER_REQUEST"}
+{"text": "Good morning, what am I being charged for the managed account service", "label": "FEE_QUESTION"}
+{"text": "What do I gain by keeping it in the plan", "label": "COMPARISON_REQUEST"}
+{"text": "Good morning, are there any hidden costs in the plan?", "label": "FEE_QUESTION"}
+{"text": "Hi, can I avoid the 10 percent penalty.", "label": "TAX_ADVICE"}
+{"text": "Can I avoid the 10 percent penalty?", "label": "TAX_ADVICE"}
+{"text": "I want to file a formal complaint.", "label": "COMPLAINT"}
+{"text": "Hi, how do I set up direct deposit for distributions.", "label": "ACCOUNT_SUPPORT"}
+{"text": "can I get a copy of the plan highlights brochure", "label": "OTHER"}
+{"text": "Hello, i'm sick of getting transferred between departments?", "label": "COMPLAINT"}
+{"text": "compare the costs of staying versus rolling over", "label": "COMPARISON_REQUEST"}
+{"text": "Hello, what am I being charged for the managed account service?", "label": "FEE_QUESTION"}
+{"text": "Hi, i'm sick of getting transferred between departments?", "label": "COMPLAINT"}
+{"text": "hey, what does the plan charge me every year?", "label": "FEE_QUESTION"}
+{"text": "I've been waiting three weeks for my distribution.", "label": "COMPLAINT"}
+{"text": "Lay out my options side by side?", "label": "COMPARISON_REQUEST"}
+{"text": "Good morning, how much tax will I pay on a withdrawal at 59 and a half.", "label": "TAX_ADVICE"}
+{"text": "Good morning, how do the fees here compare to an IRA.", "label": "FEE_QUESTION"}
+{"text": "I never got my confirmation email?", "label": "ACCOUNT_SUPPORT"}
+{"text": "unacceptable - my rollover has been pending for a month", "label": "COMPLAINT"}
+{"text": "How does the match vest at Lakeshore Services?", "label": "PLAN_QUESTION"}
+{"text": "hi, what languages do you support?", "label": "OTHER"}
+{"text": "why is it so hard to get my own money.", "label": "COMPLAINT"}
+{"text": "Good morning, what happens to my match if I leave before three years", "label": "PLAN_QUESTION"}
+{"text": "Is there a charge to move my money", "label": "FEE_QUESTION"}
+{"text": "where do I find my statement?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Does it make sense to consolidate everything into an IRA", "label": "COMPARISON_REQUEST"}
+{"text": "good morning, what do I gain by keeping it in the plan?", "label": "COMPARISON_REQUEST"}
+{"text": "Hey, how often is the match deposited", "label": "PLAN_QUESTION"}
+{"text": "Good morning, i left my employer and want my $67,000 moved out.", "label": "TRANSFER_REQUEST"}
+{"text": "Where do I find my statement.", "label": "ACCOUNT_SUPPORT"}
+{"text": "What's the penalty for early withdrawal", "label": "TAX_ADVICE"}
+{"text": "just transfer it all, I don't want to compare anything?", "label": "TRANSFER_REQUEST"}
+{"text": "what tax bracket will my distribution fall into", "label": "TAX_ADVICE"}
+{"text": "Roll my $23,000 into my existing IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "How do I move my money out of the plan?", "label": "TRANSFER_REQUEST"}
+{"text": "my balance looks wrong", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hey, why is it so hard to get my own money?", "label": "COMPLAINT"}
+{"text": "when can I enroll in the plan?", "label": "PLAN_QUESTION"}
+{"text": "hi, does it make sense to consolidate everything into an IRA.", "label": "COMPARISON_REQUEST"}
+{"text": "I'm furious about the fees you charged me.", "label": "COMPLAINT"}
+{"text": "Hey, how much am I paying in expense ratios", "label": "FEE_QUESTION"}
+{"text": "What's the maximum I can contribute in 2026.", "label": "PLAN_QUESTION"}
+{"text": "Good morning, what are the tax consequences of cashing out?", "label": "TAX_ADVICE"}
+{"text": "Good morning, i never got my confirmation email", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hi, i left Harbor Manufacturing and want my $67,000 moved out.", "label": "TRANSFER_REQUEST"}
+{"text": "Hey, move everything to a rollover IRA", "label": "TRANSFER_REQUEST"}
+{"text": "Good morning, what does the plan charge me every year?", "label": "FEE_QUESTION"}
+{"text": "Hi, how do I update my address?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hey, how do I minimize taxes on my 401k withdrawal", "label": "TAX_ADVICE"}
+{"text": "When am I eligible to contribute.", "label": "PLAN_QUESTION"}
+{"text": "Good morning, unacceptable - my rollover has been pending for a month.", "label": "COMPLAINT"}
+{"text": "Hey, unacceptable - my rollover has been pending for a month?", "label": "COMPLAINT"}
+{"text": "can I take a loan from my 401k?", "label": "PLAN_QUESTION"}
+{"text": "what's the penalty for early withdrawal?", "label": "TAX_ADVICE"}
+{"text": "Good morning, are there any hidden costs in the plan", "label": "FEE_QUESTION"}
+{"text": "When do employer contributions become mine?", "label": "PLAN_QUESTION"}
+{"text": "Your rep gave me wrong information last week", "label": "COMPLAINT"}
+{"text": "What happens to my match if I leave before three years.", "label": "PLAN_QUESTION"}
+{"text": "This company doesn't care about participants", "label": "COMPLAINT"}
+{"text": "what am I being charged for the managed account service?", "label": "FEE_QUESTION"}
+{"text": "How does the match vest at my old employer?", "label": "PLAN_QUESTION"}
+{"text": "i want to roll my 401k over to an IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "Can you compare my options for me?", "label": "COMPARISON_REQUEST"}
+{"text": "hello, should I do a Roth conversion this year to save on taxes.", "label": "TAX_ADVICE"}
+{"text": "Good morning, tell me the smartest tax move for my balance", "label": "TAX_ADVICE"}
+{"text": "Hi, i want to file a formal complaint", "label": "COMPLAINT"}
+{"text": "happy holidays to the team", "label": "OTHER"}
+{"text": "Hey, is there a charge to move my money.", "label": "FEE_QUESTION"}
+{"text": "How do the fees here compare to an IRA?", "label": "FEE_QUESTION"}
+{"text": "When can I enroll in the plan", "label": "PLAN_QUESTION"}
+{"text": "Hello, how much am I paying in expense ratios.", "label": "FEE_QUESTION"}
+{"text": "hey, will cashing out count as income this year", "label": "TAX_ADVICE"}
+{"text": "good morning, how do I update my address?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hi, what happens to my match if I leave before three years?", "label": "PLAN_QUESTION"}
+{"text": "hello, this is ridiculous, nobody answers the phone?", "label": "COMPLAINT"}
+{"text": "Is there a charge to move my money?", "label": "FEE_QUESTION"}
+{"text": "is it better to stay in the plan or move to my bank", "label": "COMPARISON_REQUEST"}
+{"text": "hey, move everything to a rollover IRA.", "label": "TRANSFER_REQUEST"}
+{"text": "how much am I paying in expense ratios", "label": "FEE_QUESTION"}
+{"text": "Good morning, extremely disappointed with how this was handled?", "label": "COMPLAINT"}
+{"text": "Hi, what's the penalty for early withdrawal?", "label": "TAX_ADVICE"}
+{"text": "Hi, i want to file a formal complaint.", "label": "COMPLAINT"}
+{"text": "Why is it so hard to get my own money", "label": "COMPLAINT"}
+{"text": "Hey, i left Lakeshore Services and want my $850 moved out?", "label": "TRANSFER_REQUEST"}
+{"text": "i want to file a formal complaint", "label": "COMPLAINT"}
+{"text": "I'd like to cash out my 401k", "label": "TRANSFER_REQUEST"}
+{"text": "walk me through keep vs rollover", "label": "COMPARISON_REQUEST"}
+{"text": "Good morning, which is smarter for $850, stay or roll?", "label": "COMPARISON_REQUEST"}
+{"text": "What's the maximum I can contribute in 2025", "label": "PLAN_QUESTION"}
+{"text": "hi, i want to file a formal complaint?", "label": "COMPLAINT"}
+{"text": "how much tax will I pay on a withdrawal at 65?", "label": "TAX_ADVICE"}
+{"text": "Hello, what's the weather like there", "label": "OTHER"}
+{"text": "This is ridiculous, nobody answers the phone.", "label": "COMPLAINT"}
+{"text": "just saying hi?", "label": "OTHER"}
+{"text": "Good morning, does the plan allow catch-up contributions", "label": "PLAN_QUESTION"}
+{"text": "What are the fees in this plan.", "label": "FEE_QUESTION"}
+{"text": "Can you mail me a paper statement.", "label": "ACCOUNT_SUPPORT"}
+{"text": "hey, what's the weather like there", "label": "OTHER"}
+{"text": "Does the plan allow catch-up contributions?", "label": "PLAN_QUESTION"}
+{"text": "Hey, what are the fees in this plan.", "label": "FEE_QUESTION"}
+{"text": "This is ridiculous, nobody answers the phone?", "label": "COMPLAINT"}
+{"text": "Roll my $150,000 into my existing IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "Transfer my balance to my IRA at Voya please?", "label": "TRANSFER_REQUEST"}
+{"text": "Good morning, is a direct rollover taxable.", "label": "TAX_ADVICE"}
+{"text": "Good morning, how do I unsubscribe from marketing emails?", "label": "OTHER"}
+{"text": "Can you mail me a paper statement?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hi, do you have a mobile app.", "label": "OTHER"}
+{"text": "how do I unsubscribe from marketing emails", "label": "OTHER"}
+{"text": "Hello, just saying hi?", "label": "OTHER"}
+{"text": "hello, which is smarter for $23,000, stay or roll?", "label": "COMPARISON_REQUEST"}
+{"text": "What does the plan charge me every year?", "label": "FEE_QUESTION"}
+{"text": "Hey, is a direct rollover taxable?", "label": "TAX_ADVICE"}
+{"text": "What tax bracket will my distribution fall into?", "label": "TAX_ADVICE"}
+{"text": "Hey, extremely disappointed with how this was handled", "label": "COMPLAINT"}
+{"text": "compare the costs of staying versus rolling over?", "label": "COMPARISON_REQUEST"}
+{"text": "i was just checking how this chat works?", "label": "OTHER"}
+{"text": "Hello, can I get a copy of the plan highlights brochure?", "label": "OTHER"}
+{"text": "Hey, when can I enroll in the plan", "label": "PLAN_QUESTION"}
+{"text": "Your website lost my paperwork twice.", "label": "COMPLAINT"}
+{"text": "What tax bracket will my distribution fall into.", "label": "TAX_ADVICE"}
+{"text": "Should I keep my money in the plan or roll it over", "label": "COMPARISON_REQUEST"}
+{"text": "What's the expense ratio on the target date fund?", "label": "FEE_QUESTION"}
+{"text": "Hi, what's the expense ratio on the target date fund.", "label": "FEE_QUESTION"}
+{"text": "I can't log into my account", "label": "ACCOUNT_SUPPORT"}
+{"text": "Which is smarter for $850, stay or roll", "label": "COMPARISON_REQUEST"}
+{"text": "When am I eligible to contribute?", "label": "PLAN_QUESTION"}
+{"text": "Hi, just saying hi", "label": "OTHER"}
+{"text": "Hi, unacceptable - my rollover has been pending for a month?", "label": "COMPLAINT"}
+{"text": "hi, how do I reset my password?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Do you have an office in Hartford.", "label": "OTHER"}
+{"text": "Will I owe taxes if I roll over to a Roth?", "label": "TAX_ADVICE"}
+{"text": "hi, i was just checking how this chat works?", "label": "OTHER"}
+{"text": "hi, i can't log into my account.", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hello, how much am I paying in expense ratios?", "label": "FEE_QUESTION"}
+{"text": "Is a direct rollover taxable?", "label": "TAX_ADVICE"}
+{"text": "hello, what's the expense ratio on the target date fund", "label": "FEE_QUESTION"}
+{"text": "please send my vested balance to my bank.", "label": "TRANSFER_REQUEST"}
+{"text": "how do I change my beneficiaries online?", "label": "ACCOUNT_SUPPORT"}
+{"text": "will cashing out count as income this year", "label": "TAX_ADVICE"}
+{"text": "roll my $67,000 into my existing IRA.", "label": "TRANSFER_REQUEST"}
+{"text": "happy holidays to the team?", "label": "OTHER"}
+{"text": "What's the expense ratio on the target date fund", "label": "FEE_QUESTION"}
+{"text": "The website says my account is locked?", "label": "ACCOUNT_SUPPORT"}
+{"text": "hey, unacceptable - my rollover has been pending for a month.", "label": "COMPLAINT"}
+{"text": "Transfer my balance to my IRA at Vanguard please?", "label": "TRANSFER_REQUEST"}
+{"text": "What's the weather like there?", "label": "OTHER"}
+{"text": "Hello, when do employer contributions become mine?", "label": "PLAN_QUESTION"}
+{"text": "i left my employer and want my $12,500 moved out.", "label": "TRANSFER_REQUEST"}
+{"text": "how do I unsubscribe from marketing emails.", "label": "OTHER"}
+{"text": "should I do a Roth conversion this year to save on taxes?", "label": "TAX_ADVICE"}
+{"text": "Good morning, how do I set up direct deposit for distributions", "label": "ACCOUNT_SUPPORT"}
+{"text": "where's my 1099 form", "label": "ACCOUNT_SUPPORT"}
+{"text": "I left Harbor Manufacturing and want my $850 moved out.", "label": "TRANSFER_REQUEST"}
+{"text": "I'm retiring in 2026 - should the money stay or go?", "label": "COMPARISON_REQUEST"}
+{"text": "your rep gave me wrong information last week?", "label": "COMPLAINT"}
+{"text": "Good morning, get my money out of this plan.", "label": "TRANSFER_REQUEST"}
+{"text": "What percentage goes to fees each year?", "label": "FEE_QUESTION"}
+{"text": "good morning, please send my vested balance to my bank?", "label": "TRANSFER_REQUEST"}
+{"text": "good morning, what is the vesting schedule?", "label": "PLAN_QUESTION"}
+{"text": "Hey, walk me through keep vs rollover?", "label": "COMPARISON_REQUEST"}
+{"text": "Thanks for your help yesterday?", "label": "OTHER"}
+{"text": "Are there any hidden costs in the plan.", "label": "FEE_QUESTION"}
+{"text": "Can I take a loan from my 401k", "label": "PLAN_QUESTION"}
+{"text": "how do I minimize taxes on my 401k withdrawal", "label": "TAX_ADVICE"}
+{"text": "how much tax will I pay on a withdrawal at 65.", "label": "TAX_ADVICE"}
+{"text": "Good morning, does the plan allow catch-up contributions?", "label": "PLAN_QUESTION"}
+{"text": "Good morning, what time does the call center open", "label": "OTHER"}
+{"text": "Hello, the website says my account is locked?", "label": "ACCOUNT_SUPPORT"}
+{"text": "i left Harbor Manufacturing and want my $850 moved out?", "label": "TRANSFER_REQUEST"}
+{"text": "Good morning, this is the worst service I've ever dealt with.", "label": "COMPLAINT"}
+{"text": "Can I take a loan from my 401k.", "label": "PLAN_QUESTION"}
+{"text": "Move everything to a rollover IRA", "label": "TRANSFER_REQUEST"}
+{"text": "Please send my vested balance to my bank?", "label": "TRANSFER_REQUEST"}
+{"text": "Good morning, get my money out of this plan?", "label": "TRANSFER_REQUEST"}
+{"text": "i need to withdraw my 401k money?", "label": "TRANSFER_REQUEST"}
+{"text": "Is it better to stay in the plan or move to my bank.", "label": "COMPARISON_REQUEST"}
+{"text": "What happens to my match if I leave before three years?", "label": "PLAN_QUESTION"}
+{"text": "good morning, lay out my options side by side.", "label": "COMPARISON_REQUEST"}
+{"text": "Hello, how do I reset my password?", "label": "ACCOUNT_SUPPORT"}
+{"text": "hey, happy holidays to the team?", "label": "OTHER"}
+{"text": "Good morning, what am I being charged for the managed account service?", "label": "FEE_QUESTION"}
+{"text": "Hello, move everything to a rollover IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "hey, can I avoid the 10 percent penalty?", "label": "TAX_ADVICE"}
+{"text": "Hello, how do I move my money out of the plan?", "label": "TRANSFER_REQUEST"}
+{"text": "Hi, can you mail me a paper statement?", "label": "ACCOUNT_SUPPORT"}
+{"text": "I'm sick of getting transferred between departments", "label": "COMPLAINT"}
+{"text": "Hello, what's the penalty for early withdrawal?", "label": "TAX_ADVICE"}
+{"text": "Hey, can you start the rollover process for my account?", "label": "TRANSFER_REQUEST"}
+{"text": "Are there any hidden costs in the plan?", "label": "FEE_QUESTION"}
+{"text": "Get my money out of this plan", "label": "TRANSFER_REQUEST"}
+{"text": "hey, help me decide between the plan and an IRA", "label": "COMPARISON_REQUEST"}
+{"text": "why is it so hard to get my own money?", "label": "COMPLAINT"}
+{"text": "Hey, when am I eligible to contribute.", "label": "PLAN_QUESTION"}
+{"text": "Does the plan allow catch-up contributions", "label": "PLAN_QUESTION"}
+{"text": "hi, how much tax will I pay on a withdrawal at 65.", "label": "TAX_ADVICE"}
+{"text": "Hey, does the plan allow catch-up contributions.", "label": "PLAN_QUESTION"}
+{"text": "Hello, roll my $850 into my existing IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "Is it better to stay in the plan or move to Empower?", "label": "COMPARISON_REQUEST"}
+{"text": "How do I set up direct deposit for distributions.", "label": "ACCOUNT_SUPPORT"}
+{"text": "Are there any hidden costs in the plan", "label": "FEE_QUESTION"}
+{"text": "good morning, i'd like to cash out my 401k?", "label": "TRANSFER_REQUEST"}
+{"text": "Hello, i want to file a formal complaint?", "label": "COMPLAINT"}
+{"text": "I'm sick of getting transferred between departments?", "label": "COMPLAINT"}
+{"text": "Does it make sense to consolidate everything into an IRA?", "label": "COMPARISON_REQUEST"}
+{"text": "how do I update my address", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hello, unacceptable - my rollover has been pending for a month", "label": "COMPLAINT"}
+{"text": "Good morning, what's the weather like there?", "label": "OTHER"}
+{"text": "hi, what percentage goes to fees each year.", "label": "FEE_QUESTION"}
+{"text": "hi, should I do a Roth conversion this year to save on taxes?", "label": "TAX_ADVICE"}
+{"text": "hey, i can't log into my account?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hey, how do I update my address?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hey, what am I being charged for the managed account service.", "label": "FEE_QUESTION"}
+{"text": "Hey, is it better to stay in the plan or move to Vanguard.", "label": "COMPARISON_REQUEST"}
+{"text": "How do I change my beneficiaries online.", "label": "ACCOUNT_SUPPORT"}
+{"text": "what time does the call center open?", "label": "OTHER"}
+{"text": "Good morning, what percentage goes to fees each year?", "label": "FEE_QUESTION"}
+{"text": "good morning, where do I find my statement?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Is a direct rollover taxable.", "label": "TAX_ADVICE"}
+{"text": "I was just checking how this chat works.", "label": "OTHER"}
+{"text": "Hello, what are the fees in this plan?", "label": "FEE_QUESTION"}
+{"text": "hi, which is smarter for $150,000, stay or roll", "label": "COMPARISON_REQUEST"}
+{"text": "how do I update my address.", "label": "ACCOUNT_SUPPORT"}
+{"text": "i'd like to cash out my 401k?", "label": "TRANSFER_REQUEST"}
+{"text": "What percentage goes to fees each year", "label": "FEE_QUESTION"}
+{"text": "good morning, i want to file a formal complaint?", "label": "COMPLAINT"}
+{"text": "How do I minimize taxes on my 401k withdrawal?", "label": "TAX_ADVICE"}
+{"text": "good morning, when can I enroll in the plan", "label": "PLAN_QUESTION"}
+{"text": "What languages do you support?", "label": "OTHER"}
+{"text": "How much tax will I pay on a withdrawal at 59 and a half?", "label": "TAX_ADVICE"}
+{"text": "Hello, what tax bracket will my distribution fall into?", "label": "TAX_ADVICE"}
+{"text": "What languages do you support", "label": "OTHER"}
+{"text": "Good morning, how does the match vest at my employer.", "label": "PLAN_QUESTION"}
+{"text": "Is a direct rollover taxable", "label": "TAX_ADVICE"}
+{"text": "hi, this company doesn't care about participants?", "label": "COMPLAINT"}
+{"text": "this is the worst service I've ever dealt with", "label": "COMPLAINT"}
+{"text": "How do I reset my password.", "label": "ACCOUNT_SUPPORT"}
+{"text": "When can I enroll in the plan.", "label": "PLAN_QUESTION"}
+{"text": "hey, get my money out of this plan?", "label": "TRANSFER_REQUEST"}
+{"text": "roll my $850 into my existing IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "can you compare my options for me", "label": "COMPARISON_REQUEST"}
+{"text": "Hey, thanks for your help yesterday", "label": "OTHER"}
+{"text": "this is the worst service I've ever dealt with.", "label": "COMPLAINT"}
+{"text": "Hello, i can't log into my account", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hello, which is smarter for $850, stay or roll?", "label": "COMPARISON_REQUEST"}
+{"text": "hello, does it make sense to consolidate everything into an IRA?", "label": "COMPARISON_REQUEST"}
+{"text": "my balance looks wrong.", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hi, transfer my balance to my IRA at Empower please?", "label": "TRANSFER_REQUEST"}
+{"text": "Good morning, i'm furious about the fees you charged me?", "label": "COMPLAINT"}
+{"text": "How do I set up direct deposit for distributions?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Tell me the smartest tax move for my balance?", "label": "TAX_ADVICE"}
+{"text": "Is it better to stay in the plan or move to Fidelity", "label": "COMPARISON_REQUEST"}
+{"text": "I can't log into my account.", "label": "ACCOUNT_SUPPORT"}
+{"text": "is this a real person?", "label": "OTHER"}
+{"text": "the app keeps crashing when I sign in.", "label": "ACCOUNT_SUPPORT"}
+{"text": "How do I minimize taxes on my 401k withdrawal.", "label": "TAX_ADVICE"}
+{"text": "Hello, what is the vesting schedule?", "label": "PLAN_QUESTION"}
+{"text": "I'm furious about the fees you charged me?", "label": "COMPLAINT"}
+{"text": "Tell me the smartest tax move for my balance", "label": "TAX_ADVICE"}
+{"text": "What is the vesting schedule.", "label": "PLAN_QUESTION"}
+{"text": "What's the maximum I can contribute in 2026?", "label": "PLAN_QUESTION"}
+{"text": "Is this a real person.", "label": "OTHER"}
+{"text": "I can't log into my account?", "label": "ACCOUNT_SUPPORT"}
+{"text": "are there fees for rolling over.", "label": "FEE_QUESTION"}
+{"text": "Hey, i can't log into my account.", "label": "ACCOUNT_SUPPORT"}
+{"text": "the app keeps crashing when I sign in", "label": "ACCOUNT_SUPPORT"}
+{"text": "What do I gain by keeping it in the plan?", "label": "COMPARISON_REQUEST"}
+{"text": "how does the match vest at my employer.", "label": "PLAN_QUESTION"}
+{"text": "Hi, will I owe taxes if I roll over to a Roth?", "label": "TAX_ADVICE"}
+{"text": "hi, unacceptable - my rollover has been pending for a month", "label": "COMPLAINT"}
+{"text": "Hi, your rep gave me wrong information last week?", "label": "COMPLAINT"}
+{"text": "good morning, should I keep my money in the plan or roll it over.", "label": "COMPARISON_REQUEST"}
+{"text": "Please send my vested balance to my bank", "label": "TRANSFER_REQUEST"}
+{"text": "I'd like to cash out my 401k.", "label": "TRANSFER_REQUEST"}
+{"text": "what am I being charged for the managed account service.", "label": "FEE_QUESTION"}
+{"text": "Hi, does the plan allow catch-up contributions?", "label": "PLAN_QUESTION"}
+{"text": "What's the weather like there", "label": "OTHER"}
+{"text": "Can you mail me a paper statement", "label": "ACCOUNT_SUPPORT"}
+{"text": "when do employer contributions become mine.", "label": "PLAN_QUESTION"}
+{"text": "how much tax will I pay on a withdrawal at 65", "label": "TAX_ADVICE"}
+{"text": "good morning, this company doesn't care about participants?", "label": "COMPLAINT"}
+{"text": "What are the fund fees in my 401k.", "label": "FEE_QUESTION"}
+{"text": "Thanks for your help yesterday.", "label": "OTHER"}
+{"text": "Should I keep my money in the plan or roll it over?", "label": "COMPARISON_REQUEST"}
+{"text": "how much tax will I pay on a withdrawal at 59 and a half", "label": "TAX_ADVICE"}
+{"text": "where's my 1099 form.", "label": "ACCOUNT_SUPPORT"}
+{"text": "Can you start the rollover process for my account?", "label": "TRANSFER_REQUEST"}
+{"text": "what are the fees in this plan?", "label": "FEE_QUESTION"}
+{"text": "What's the maximum I can contribute in 2025.", "label": "PLAN_QUESTION"}
+{"text": "Should I keep my money in the plan or roll it over.", "label": "COMPARISON_REQUEST"}
+{"text": "hey, i left my employer and want my $4,000 moved out?", "label": "TRANSFER_REQUEST"}
+{"text": "I left Lakeshore Services and want my $150,000 moved out?", "label": "TRANSFER_REQUEST"}
+{"text": "hey, does the plan allow catch-up contributions", "label": "PLAN_QUESTION"}
+{"text": "hello, the app keeps crashing when I sign in", "label": "ACCOUNT_SUPPORT"}
+{"text": "Transfer my balance to my IRA at Vanguard please", "label": "TRANSFER_REQUEST"}
+{"text": "How do I move my money out of the plan", "label": "TRANSFER_REQUEST"}
+{"text": "What is the vesting schedule?", "label": "PLAN_QUESTION"}
+{"text": "Do you have an office in Hartford?", "label": "OTHER"}
+{"text": "Good morning, i left Lakeshore Services and want my $4,000 moved out.", "label": "TRANSFER_REQUEST"}
+{"text": "Hello, can you start the rollover process for my account?", "label": "TRANSFER_REQUEST"}
+{"text": "Hello, i'd like to cash out my 401k?", "label": "TRANSFER_REQUEST"}
+{"text": "just saying hi.", "label": "OTHER"}
+{"text": "hello, i can't log into my account.", "label": "ACCOUNT_SUPPORT"}
+{"text": "Is there a charge to move my money.", "label": "FEE_QUESTION"}
+{"text": "extremely disappointed with how this was handled", "label": "COMPLAINT"}
+{"text": "the website says my account is locked", "label": "ACCOUNT_SUPPORT"}
+{"text": "hello, is this a real person.", "label": "OTHER"}
+{"text": "good morning, can you mail me a paper statement?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hey, can I get a copy of the plan highlights brochure", "label": "OTHER"}
+{"text": "hello, can you mail me a paper statement?", "label": "ACCOUNT_SUPPORT"}
+{"text": "how do I move my money out of the plan.", "label": "TRANSFER_REQUEST"}
+{"text": "I left my employer and want my $850 moved out?", "label": "TRANSFER_REQUEST"}
+{"text": "Good morning, are there fees for rolling over?", "label": "FEE_QUESTION"}
+{"text": "Hello, i was just checking how this chat works?", "label": "OTHER"}
+{"text": "Hey, what are the tax consequences of cashing out", "label": "TAX_ADVICE"}
+{"text": "Hey, i want to file a formal complaint?", "label": "COMPLAINT"}
+{"text": "Hello, am I fully vested yet?", "label": "PLAN_QUESTION"}
+{"text": "Hello, am I fully vested yet", "label": "PLAN_QUESTION"}
+{"text": "Hey, i can't log into my account", "label": "ACCOUNT_SUPPORT"}
+{"text": "good morning, what are the pros and cons of leaving my 401k where it is?", "label": "COMPARISON_REQUEST"}
+{"text": "Hey, should I do a Roth conversion this year to save on taxes", "label": "TAX_ADVICE"}
+{"text": "Do you have a mobile app", "label": "OTHER"}
+{"text": "Tell me the smartest tax move for my balance.", "label": "TAX_ADVICE"}
+{"text": "my balance looks wrong?", "label": "ACCOUNT_SUPPORT"}
+{"text": "does the plan allow catch-up contributions.", "label": "PLAN_QUESTION"}
+{"text": "walk me through keep vs rollover?", "label": "COMPARISON_REQUEST"}
+{"text": "good morning, where do I find my statement", "label": "ACCOUNT_SUPPORT"}
+{"text": "What are the pros and cons of leaving my 401k where it is?", "label": "COMPARISON_REQUEST"}
+{"text": "Where's my 1099 form?", "label": "ACCOUNT_SUPPORT"}
+{"text": "can you compare my options for me.", "label": "COMPARISON_REQUEST"}
+{"text": "Hi, compare the costs of staying versus rolling over", "label": "COMPARISON_REQUEST"}
+{"text": "good morning, are there any hidden costs in the plan.", "label": "FEE_QUESTION"}
+{"text": "which is smarter for $67,000, stay or roll.", "label": "COMPARISON_REQUEST"}
+{"text": "Hi, how much do I pay in administrative fees?", "label": "FEE_QUESTION"}
+{"text": "just saying hi", "label": "OTHER"}
+{"text": "Good morning, i left my old employer and want my $850 moved out?", "label": "TRANSFER_REQUEST"}
+{"text": "hello, do I pay state tax on a rollover?", "label": "TAX_ADVICE"}
+{"text": "What's the weather like there.", "label": "OTHER"}
+{"text": "How does the match vest at my employer?", "label": "PLAN_QUESTION"}
+{"text": "Good morning, can I get a copy of the plan highlights brochure", "label": "OTHER"}
+{"text": "can I get a copy of the plan highlights brochure.", "label": "OTHER"}
+{"text": "Walk me through keep vs rollover.", "label": "COMPARISON_REQUEST"}
+{"text": "How do I update my address?", "label": "ACCOUNT_SUPPORT"}
+{"text": "How much am I paying in expense ratios?", "label": "FEE_QUESTION"}
+{"text": "what time does the call center open", "label": "OTHER"}
+{"text": "How does the match vest at Lakeshore Services.", "label": "PLAN_QUESTION"}
+{"text": "Hello, can I avoid the 10 percent penalty?", "label": "TAX_ADVICE"}
+{"text": "Good morning, does it make sense to consolidate everything into an IRA", "label": "COMPARISON_REQUEST"}
+{"text": "Hello, can I take a loan from my 401k?", "label": "PLAN_QUESTION"}
+{"text": "Hi, can I get a copy of the plan highlights brochure.", "label": "OTHER"}
+{"text": "i want to roll my 401k over to an IRA", "label": "TRANSFER_REQUEST"}
+{"text": "Do I pay state tax on a rollover?", "label": "TAX_ADVICE"}
+{"text": "Hey, where do I find my statement?", "label": "ACCOUNT_SUPPORT"}
+{"text": "This is the worst service I've ever dealt with?", "label": "COMPLAINT"}
+{"text": "Good morning, what time does the call center open?", "label": "OTHER"}
+{"text": "What's the maximum I can contribute in 2025?", "label": "PLAN_QUESTION"}
+{"text": "good morning, how do I change my beneficiaries online?", "label": "ACCOUNT_SUPPORT"}
+{"text": "I'm retiring in 2024 - should the money stay or go?", "label": "COMPARISON_REQUEST"}
+{"text": "hey, compare the costs of staying versus rolling over?", "label": "COMPARISON_REQUEST"}
+{"text": "good morning, help me decide between the plan and an IRA?", "label": "COMPARISON_REQUEST"}
+{"text": "Extremely disappointed with how this was handled?", "label": "COMPLAINT"}
+{"text": "Hello, are there any hidden costs in the plan?", "label": "FEE_QUESTION"}
+{"text": "Hi, what is the employer match?", "label": "PLAN_QUESTION"}
+{"text": "your rep gave me wrong information last week.", "label": "COMPLAINT"}
+{"text": "How do I reset my password?", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hello, what languages do you support?", "label": "OTHER"}
+{"text": "what is the employer match?", "label": "PLAN_QUESTION"}
+{"text": "What does the plan charge me every year", "label": "FEE_QUESTION"}
+{"text": "Hi, am I fully vested yet?", "label": "PLAN_QUESTION"}
+{"text": "I never got my confirmation email.", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hey, what are the pros and cons of leaving my 401k where it is.", "label": "COMPARISON_REQUEST"}
+{"text": "Good morning, just transfer it all, I don't want to compare anything", "label": "TRANSFER_REQUEST"}
+{"text": "Do I pay state tax on a rollover", "label": "TAX_ADVICE"}
+{"text": "Move everything to a rollover IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "help me decide between the plan and an IRA.", "label": "COMPARISON_REQUEST"}
+{"text": "Hi, lay out my options side by side?", "label": "COMPARISON_REQUEST"}
+{"text": "this company doesn't care about participants?", "label": "COMPLAINT"}
+{"text": "hey, what happens to my match if I leave before three years?", "label": "PLAN_QUESTION"}
+{"text": "Good morning, can I take a loan from my 401k?", "label": "PLAN_QUESTION"}
+{"text": "Hi, your rep gave me wrong information last week.", "label": "COMPLAINT"}
+{"text": "Hi, walk me through keep vs rollover?", "label": "COMPARISON_REQUEST"}
+{"text": "Hey, does it make sense to consolidate everything into an IRA?", "label": "COMPARISON_REQUEST"}
+{"text": "lay out my options side by side", "label": "COMPARISON_REQUEST"}
+{"text": "Hello, how do I unsubscribe from marketing emails?", "label": "OTHER"}
+{"text": "Hi, just saying hi.", "label": "OTHER"}
+{"text": "roll my $12,500 into my existing IRA?", "label": "TRANSFER_REQUEST"}
+{"text": "can I get a copy of the plan highlights brochure?", "label": "OTHER"}
+{"text": "hey, what languages do you support?", "label": "OTHER"}
+{"text": "will cashing out count as income this year.", "label": "TAX_ADVICE"}
+{"text": "what are the pros and cons of leaving my 401k where it is.", "label": "COMPARISON_REQUEST"}
+{"text": "Good morning, happy holidays to the team.", "label": "OTHER"}
+{"text": "hello, what percentage goes to fees each year.", "label": "FEE_QUESTION"}
+{"text": "Hi, i need to withdraw my 401k money?", "label": "TRANSFER_REQUEST"}
+{"text": "Hi, what's the expense ratio on the target date fund", "label": "FEE_QUESTION"}
+{"text": "good morning, i can't log into my account", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hey, transfer my balance to my IRA at Vanguard please.", "label": "TRANSFER_REQUEST"}
+{"text": "Hey, what's the penalty for early withdrawal.", "label": "TAX_ADVICE"}
+{"text": "get my money out of this plan?", "label": "TRANSFER_REQUEST"}
+{"text": "Hey, am I fully vested yet.", "label": "PLAN_QUESTION"}
+{"text": "Hello, i'm sick of getting transferred between departments.", "label": "COMPLAINT"}
+{"text": "What is the employer match.", "label": "PLAN_QUESTION"}
+{"text": "hey, what are the fees in this plan?", "label": "FEE_QUESTION"}
+{"text": "hi, does it make sense to consolidate everything into an IRA", "label": "COMPARISON_REQUEST"}
+{"text": "will I owe taxes if I roll over to a Roth.", "label": "TAX_ADVICE"}
+{"text": "good morning, this is ridiculous, nobody answers the phone?", "label": "COMPLAINT"}
+{"text": "Is it better to stay in the plan or move to Fidelity?", "label": "COMPARISON_REQUEST"}
+{"text": "Hey, i never got my confirmation email?", "label": "ACCOUNT_SUPPORT"}
+{"text": "how often is the match deposited?", "label": "PLAN_QUESTION"}
+{"text": "Hey, when do employer contributions become mine", "label": "PLAN_QUESTION"}
+{"text": "When do employer contributions become mine", "label": "PLAN_QUESTION"}
+{"text": "hey, i was just checking how this chat works?", "label": "OTHER"}
+{"text": "Do you have a mobile app.", "label": "OTHER"}
+{"text": "What am I being charged for the managed account service", "label": "FEE_QUESTION"}
+{"text": "good morning, tell me the smartest tax move for my balance?", "label": "TAX_ADVICE"}
+{"text": "Hi, is this a real person?", "label": "OTHER"}
+{"text": "How do the fees here compare to an IRA.", "label": "FEE_QUESTION"}
+{"text": "Roll my $150,000 into my existing IRA.", "label": "TRANSFER_REQUEST"}
+{"text": "Unacceptable - my rollover has been pending for a month?", "label": "COMPLAINT"}
+{"text": "Will I owe taxes if I roll over to a Roth", "label": "TAX_ADVICE"}
+{"text": "what are the fund fees in my 401k?", "label": "FEE_QUESTION"}
+{"text": "Hey, the website says my account is locked", "label": "ACCOUNT_SUPPORT"}
+{"text": "Hey, this is ridiculous, nobody answers the phone?", "label": "COMPLAINT"}
+{"text": "good morning, what does the plan charge me every year.", "label": "FEE_QUESTION"}
+{"text": "are there fees for rolling over", "label": "FEE_QUESTION"}
+{"text": "What are the tax consequences of cashing out?", "label": "TAX_ADVICE"}
+{"text": "I've been waiting three weeks for my distribution", "label": "COMPLAINT"}
+{"text": "Good morning, how do I minimize taxes on my 401k withdrawal?", "label": "TAX_ADVICE"}
+{"text": "What happens to my match if I leave before three years", "label": "PLAN_QUESTION"}
+{"text": "Good morning, is there a charge to move my money", "label": "FEE_QUESTION"}
+{"text": "Hey, this is the worst service I've ever dealt with", "label": "COMPLAINT"}
+{"text": "Compare the costs of staying versus rolling over.", "label": "COMPARISON_REQUEST"}
+{"text": "Hey, how do I reset my password", "label": "ACCOUNT_SUPPORT"}
+{"text": "transfer my balance to my IRA at Fidelity please.", "label": "TRANSFER_REQUEST"}
+{"text": "this company doesn't care about participants.", "label": "COMPLAINT"}
+{"text": "How much do I pay in administrative fees.", "label": "FEE_QUESTION"}
+{"text": "hey, what's the weather like there.", "label": "OTHER"}
+{"text": "What's the maximum I can contribute in 2024?", "label": "PLAN_QUESTION"}
+{"text": "Hi, what's the weather like there?", "label": "OTHER"}
+{"text": "What's the expense ratio on the target date fund.", "label": "FEE_QUESTION"}
+{"text": "Hello, how does the match vest at Harbor Manufacturing?", "label": "PLAN_QUESTION"}
+{"text": "how much do I pay in administrative fees", "label": "FEE_QUESTION"}
+{"text": "Do I pay state tax on a rollover.", "label": "TAX_ADVICE"}
+{"text": "What are the pros and cons of leaving my 401k where it is", "label": "COMPARISON_REQUEST"}
+{"text": "Will cashing out count as income this year?", "label": "TAX_ADVICE"}
+{"text": "Hi, i've been waiting three weeks for my distribution?", "label": "COMPLAINT"}
+{"text": "Good morning, my balance looks wrong?", "label": "ACCOUNT_SUPPORT"}
+{"text": "hey, the website says my account is locked?", "label": "ACCOUNT_SUPPORT"}
+{"text": "I've been waiting three weeks for my distribution?", "label": "COMPLAINT"}
+{"text": "Hey, what tax bracket will my distribution fall into?", "label": "TAX_ADVICE"}
+{"text": "Unacceptable - my rollover has been pending for a month.", "label": "COMPLAINT"}
+{"text": "What time does the call center open.", "label": "OTHER"}
+{"text": "hey, can you compare my options for me", "label": "COMPARISON_REQUEST"}
+{"text": "hey, where do I find my statement.", "label": "ACCOUNT_SUPPORT"}
+{"text": "i never got my confirmation email", "label": "ACCOUNT_SUPPORT"}

@@ -1,0 +1,50 @@
+{"text": "I need the distribution paperwork to move my retirement savings to an outside IRA.", "label": "TRANSFER_REQUEST"}
+{"text": "Please initiate a direct rollover of my entire vested account to Schwab.", "label": "TRANSFER_REQUEST"}
+{"text": "Now that I've separated from service I want the funds sent to my individual retirement account.", "label": "TRANSFER_REQUEST"}
+{"text": "Sign me up to liquidate the account and wire the proceeds.", "label": "TRANSFER_REQUEST"}
+{"text": "I'd like the whole balance pulled out and parked in an IRA I control.", "label": "TRANSFER_REQUEST"}
+{"text": "Time to move this money - start the transfer to my rollover account.", "label": "TRANSFER_REQUEST"}
+{"text": "Can you cut a check for my account balance payable to my new custodian", "label": "TRANSFER_REQUEST"}
+{"text": "How much does this plan cost me annually in dollars", "label": "FEE_QUESTION"}
+{"text": "I want a breakdown of every charge on my account last year.", "label": "FEE_QUESTION"}
+{"text": "What does the S&P 500 index option charge in basis points", "label": "FEE_QUESTION"}
+{"text": "Do you take a percentage when participants leave", "label": "FEE_QUESTION"}
+{"text": "Show me the total cost of ownership for staying enrolled.", "label": "FEE_QUESTION"}
+{"text": "Why did my statement show a $38 deduction labeled plan administration", "label": "FEE_QUESTION"}
+{"text": "Weigh staying put against moving to an IRA for someone five years from retirement.", "label": "COMPARISON_REQUEST"}
+{"text": "I'm torn between leaving the money with my ex-employer and consolidating - talk me through it.", "label": "COMPARISON_REQUEST"}
+{"text": "Give me the trade-offs of each path before I decide anything.", "label": "COMPARISON_REQUEST"}
+{"text": "Is there any reason not to just merge everything into one IRA", "label": "COMPARISON_REQUEST"}
+{"text": "Break down the advantages of the employer plan versus an individual account.", "label": "COMPARISON_REQUEST"}
+{"text": "Help me think through whether to stay or go.", "label": "COMPARISON_REQUEST"}
+{"text": "What would I lose if I moved the balance out of the plan", "label": "COMPARISON_REQUEST"}
+{"text": "If I convert $20k to Roth this year what does that do to my tax bill", "label": "TAX_ADVICE"}
+{"text": "Walk me through the withholding on an early distribution.", "label": "TAX_ADVICE"}
+{"text": "At what age can I touch the money without the IRS penalty", "label": "TAX_ADVICE"}
+{"text": "Does rolling to a Roth IRA trigger taxes right away", "label": "TAX_ADVICE"}
+{"text": "How is a hardship withdrawal taxed in Connecticut", "label": "TAX_ADVICE"}
+{"text": "What's the most tax-efficient way to start taking money out at 60", "label": "TAX_ADVICE"}
+{"text": "How long do I have to work here before the company match is mine", "label": "PLAN_QUESTION"}
+{"text": "What's the waiting period for new hires to join the 401k", "label": "PLAN_QUESTION"}
+{"text": "Does my employer match dollar for dollar or fifty cents", "label": "PLAN_QUESTION"}
+{"text": "Is there a cliff or does vesting grade over time", "label": "PLAN_QUESTION"}
+{"text": "Can part-time employees participate in the plan", "label": "PLAN_QUESTION"}
+{"text": "What's the Roth versus pre-tax contribution split allowed under the plan", "label": "PLAN_QUESTION"}
+{"text": "Are hardship withdrawals permitted under our plan rules", "label": "PLAN_QUESTION"}
+{"text": "The login page keeps rejecting the password I know is right.", "label": "ACCOUNT_SUPPORT"}
+{"text": "I need to update the email on file.", "label": "ACCOUNT_SUPPORT"}
+{"text": "My quarterly statement never showed up in the mail.", "label": "ACCOUNT_SUPPORT"}
+{"text": "Two-factor texts are going to my old phone number.", "label": "ACCOUNT_SUPPORT"}
+{"text": "The balance on the app doesn't match my paystub contributions.", "label": "ACCOUNT_SUPPORT"}
+{"text": "How do I download my year-to-date transaction history", "label": "ACCOUNT_SUPPORT"}
+{"text": "Three phone calls and nobody has fixed my address change - unbelievable.", "label": "COMPLAINT"}
+{"text": "I was promised a callback last Tuesday and heard nothing.", "label": "COMPLAINT"}
+{"text": "Why was I charged a fee nobody disclosed when I enrolled", "label": "COMPLAINT"}
+{"text": "Every time I call I get a different answer. This is a mess.", "label": "COMPLAINT"}
+{"text": "My distribution sat in processing for six weeks with zero updates.", "label": "COMPLAINT"}
+{"text": "I expect someone to explain why my paperwork was rejected without notice.", "label": "COMPLAINT"}
+{"text": "Do you have a Spanish-speaking line", "label": "OTHER"}
+{"text": "Where are you located", "label": "OTHER"}
+{"text": "Just testing whether this chat saves history.", "label": "OTHER"}
+{"text": "What are your holiday hours", "label": "OTHER"}
+{"text": "Can my spouse call on my behalf", "label": "OTHER"}
